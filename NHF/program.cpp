@@ -35,8 +35,10 @@ using std::cin;
 * A program futtatasahoz a PROGRAM makrot true-ra a TESZT makrot pedig false-ra kell allitani. A teszt futtatasahoz a PROGRAM makrot false-ra a TESZT makrot pedig true-ra kell allitani.
 * A teszt 6 reszre van bonta. Ezeket piramis szeruen is le lehet futtatni. A teszteknek jelenleg a vazai vannak csak megirva.
 */
+
 #define PROGRAM true
 #define TESZT false
+
 int main() {
 #if !TESZT&&PROGRAM
 	std::ifstream fs;
@@ -57,6 +59,7 @@ int main() {
 	PatientManager patManager;
 	///Jelszo titkositas
 	CaesarCipher encryptor(3);
+
 	try {
 		//--FAJLBOL OLVASAS--
 		medicines.readFile(fs, "medicines.txt");
@@ -88,7 +91,7 @@ int main() {
 				user.setAccountIndex(admins, doctors, nurses, patients);
 			}
 			catch (const char* ERROR) {
-				std::cout << ERROR;
+				cout << ERROR;
 			}
 			switch (AccountType(user.getAccountType()))
 			{
