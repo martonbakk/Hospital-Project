@@ -25,13 +25,9 @@ using std::cin;
 * - A doktornak ki kell irni a max patient num szamat fileba
 * - A tesztek torzseinek megirasa 
 * - A dictionary valamiert a vegere neha odarak egy 4 4-es rekordot a fajlba
-* - A default menu opciok megirasa
 * - A try catch-ek berakasa a fuggvenyekbe ahol meg nem tortent meg es ahol lehet
 * - Az input es output fixalasa a teszthez
 * - Clean code... Kommentek megirasa, a fuggvenyek tagolasa logikusan, az input kezelo osztalyok rendszerezese, igeny szerint tobb fajlba bontasa, szemetek kiszurese
-* - Array befejezese
-* - Dictionary befejezese
-* - String befejezese
 */
 
 //Leiras
