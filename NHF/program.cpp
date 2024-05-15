@@ -87,12 +87,7 @@ int main() {
 		{
 		case 1:
 			user.loginUser(passwords, encryptor);
-			try {
 				user.setAccountIndex(admins, doctors, nurses, patients);
-			}
-			catch (const char* ERROR) {
-				cout << ERROR;
-			}
 			switch (AccountType(user.getAccountType()))
 			{
 			case ad:
@@ -100,10 +95,7 @@ int main() {
 				switch (menuOPS.adminMenuOption)
 				{
 				case 1://Fiokok torlese
-					try {
 						adManager.adminDelete(user, admins, patients, doctors, passwords);
-					}
-					catch (const char* ERROR) { std::cout << ERROR; }
 					break;
 				case 2://Fiokok szerkeztese
 					try {
@@ -118,10 +110,7 @@ int main() {
 					adManager.adminDeleteMedicine(medicines);
 					break;
 				case 5://Uj admin fiok engedelyezese
-					try {
-						adManager.adminVerifyAdminAccount(user, admins);
-					}
-					catch (const char* ERROR) { std::cout << ERROR; }
+					adManager.adminVerifyAdminAccount(user, admins);
 					break;
 				case 6://Doktorok betegeinek korlatozasa
 					adManager.adminSetDoctorsLimit(user, admins);	/// NINCS KIIRVA A FAJLBA MEG!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -208,7 +197,7 @@ int main() {
 			}
 			break;
 		case 2:
-			
+
 			break;
 		default:
 			cout << "Nincs ilyen opcio...\nVALASSZON OPCIOT: ";
