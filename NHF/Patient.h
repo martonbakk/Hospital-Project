@@ -33,9 +33,6 @@ public:
     void sendData(std::ostream& os)override;
     void listAllOption() override;
     String getName() { return _name; }
-public:
-    friend std::ifstream& operator>>(std::ifstream& is, Patient& member);
-    friend std::ofstream& operator<<(std::ofstream& is, Patient& member);
 };
 
 

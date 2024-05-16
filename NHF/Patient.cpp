@@ -70,19 +70,3 @@ void Patient::setDoc(const Doctor& doc) {
 void Patient::setMedicines(const Dictionary& medicines) {
 	_medicinesToGet = medicines;
 }
-
-
-std::ifstream& operator>>(std::ifstream& is, Patient& member) {
-	String data;
-	char ch;
-	while (is.get(ch) && ch != '*') {
-		data += ch;
-	}
-	member.loadData(data);
-	return is;
-}
-
-std::ofstream& operator<<(std::ofstream& os, Patient& member) {
-	member.sendData(os);
-	return os;
-}

@@ -39,6 +39,9 @@ public:
     virtual void loadData(const String& ss)=0;
     virtual void sendData(std::ostream& os)=0;
     virtual void listAllOption()=0;
+public:
+    friend std::ifstream& operator>>(std::ifstream& is, Account& member);
+    friend std::ofstream& operator<<(std::ofstream& is, Account& member);
 };
 
 

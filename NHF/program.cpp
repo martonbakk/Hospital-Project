@@ -2,7 +2,7 @@
 //Tarolok
 #include "myString.h"
 #include "dictionary.h"
-#include "array.hpp"
+#include "array.h"
 //Fiokok
 #include "Account.h"
 #include "Patient.h"

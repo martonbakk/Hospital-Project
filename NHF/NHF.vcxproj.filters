@@ -59,7 +59,7 @@
     <ClInclude Include="Admin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="array.hpp">
+    <ClInclude Include="array.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CaesarCipher.h">
@@ -75,9 +75,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="manager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="manager3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="memtrace.h">

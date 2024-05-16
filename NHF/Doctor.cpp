@@ -46,11 +46,10 @@ void Doctor::listAllOption() {
 }
 
 void Doctor::setPatients(Array<Patient>& patients) {
-	_patients = new Patient * [_patientNum];
 	int j = 0;
 	for (size_t i = 0; i < patients.getLen(); i++){
 		if (patients[i].getDocID() == _accountId) {
-			_patients[j++] = &patients[i];
+			_patients.push_back(&patients[i]);
 		}
 	}
 }
@@ -79,14 +78,7 @@ void Doctor::getPatient(Patient* patient) {
 	if (patient->getDocID() != -1)
 		throw "This patient already have a doctor";
 	patient->setDoc(_accountId);
-	Patient** ujpatients = new Patient * [++_patientNum];
-	for (int i = 0; i < _patientNum-1; i++)
-	{
-		ujpatients[i] = _patients[i];
-	}
-	ujpatients[_patientNum - 1] = patient;
-	delete[] _patients;
-	_patients = ujpatients;
+	_patients.push_back(patient);
 }
 
 void Doctor::replyPatientSympthoms(const Dictionary& medicines,const DictionaryEntry& reply, int idx) {
@@ -117,19 +109,3 @@ void Doctor::setMaxPatientNum(int num) {
 }
 
 int Doctor::_maxPatientNum = 5;
-
-
-std::ifstream& operator>>(std::ifstream& is, Doctor& member) {
-	String data;
-	char ch;
-	while (is.get(ch) && ch != '*') {
-		data += ch;
-	}
-	member.loadData(data);
-	return is;
-}
-
-std::ofstream& operator<<(std::ofstream& os, Doctor& member) {
-	member.sendData(os);
-	return os;
-}

@@ -8,7 +8,7 @@
 #include "Nurse.h"
 #include "Doctor.h"
 #include "Admin.h"
-#include "array.hpp"
+#include "array.h"
 
 #include <iostream>
 #include <sstream>

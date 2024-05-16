@@ -143,13 +143,12 @@
   <ItemGroup>
     <ClInclude Include="Account.h" />
     <ClInclude Include="Admin.h" />
-    <ClInclude Include="array.hpp" />
+    <ClInclude Include="array.h" />
     <ClInclude Include="CaesarCipher.h" />
     <ClInclude Include="dictionary.h" />
     <ClInclude Include="Doctor.h" />
     <ClInclude Include="gtest_lite.h" />
     <ClInclude Include="manager.h" />
-    <ClInclude Include="manager3.h" />
     <ClInclude Include="memtrace.h" />
     <ClInclude Include="myString.h" />
     <ClInclude Include="Nurse.h" />

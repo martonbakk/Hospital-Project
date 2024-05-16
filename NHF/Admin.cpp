@@ -2,7 +2,7 @@
 #include "Doctor.h"
 #include "Patient.h"
 #include "Nurse.h"
-#include "array.hpp"
+#include "array.h"
 #include "password.h"
 
 #include <string>
@@ -101,18 +101,3 @@ void Admin::deleteAccountfromArray(Array<Doctor>& doctors, Array<Password>& pass
 	patients.delete_element(element);
 }
 
-
-std::ifstream& operator>>(std::ifstream& is, Admin& member) {
-	String data;
-	char ch;
-	while (is.get(ch) && ch != '*') {
-		data += ch;
-	}
-	member.loadData(data);
-	return is;
-}
-
-std::ofstream& operator<<(std::ofstream& os, Admin& member) {
-	member.sendData(os);
-	return os;
-}

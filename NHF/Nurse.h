@@ -19,9 +19,6 @@ public:
     void loadData(const String&)override;
     void sendData(std::ostream& os)override;
     void listAllOption() override;
-public:
-    friend std::ifstream& operator>>(std::ifstream& is, Nurse& member);
-    friend std::ofstream& operator<<(std::ofstream& is, Nurse& member);
 };
 
 #endif //NURSE_H

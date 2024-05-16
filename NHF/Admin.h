@@ -6,7 +6,7 @@
 #include "Doctor.h"
 #include "Patient.h"
 #include "Nurse.h"
-#include "array.hpp"
+#include "array.h"
 #include "password.h"
 
 
@@ -38,9 +38,7 @@ public:
     void editAccountfromList(T& account, const char* Name, const char* Mail, const char* Phone) {
         account.editAccountInformation(Name, Mail, Phone);
     }
-public:
-    friend std::ifstream& operator>>(std::ifstream& is, Admin& member);
-    friend std::ofstream& operator<<(std::ofstream& is, Admin& member);
+
 };
 
 #endif //ADMIN_H

@@ -84,19 +84,3 @@ void Nurse::getMedicine(Dictionary& medicines, int key, const char* value) {
 	}
 	if (!gotMed) throw "THERE IS NO PROPER MEDICIN YOU ARE LOOKING FOR";
 }
-
-
-std::ifstream& operator>>(std::ifstream& is, Nurse& member) {
-	String data;
-	char ch;
-	while (is.get(ch) && ch != '*') {
-		data += ch;
-	}
-	member.loadData(data);
-	return is;
-}
-
-std::ofstream& operator<<(std::ofstream& os, Nurse& member) {
-	member.sendData(os);
-	return os;
-}
