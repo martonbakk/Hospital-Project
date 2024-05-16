@@ -48,24 +48,7 @@ void Nurse::sendData(std::ostream& os) {
 
 
 void Nurse::medicineLog(Patient& patient) {
-	for (size_t i = 0; i < _medicinesToGive.getSize(); i++) {
-		for (size_t j = 0; j < patient.patientNeededMedicines().getSize(); j++)
-		{
-			if (_medicinesToGive[i]._value == patient.patientNeededMedicines()[j]._value) //Ha van a novernel olyan ami a betegnek kell
-			{
-				if (_medicinesToGive[i]._key - patient.patientNeededMedicines()[j]._key >= 0)
-				{
-					int temp = patient.patientNeededMedicines()[j]._key;
-					patient.patientNeededMedicines()[j]._key -= _medicinesToGive[i]._key;
-					_medicinesToGive[i]._key -= temp;
-				}
-				else {
-					patient.patientNeededMedicines()[j]._key -= _medicinesToGive[i]._key;
-					_medicinesToGive[i]._key = 0;
-				}
-			}
-		}
-	}
+	patient.medicineFromNurse(_medicinesToGive);
 }
 
 void Nurse::getMedicine(Dictionary& medicines, int key, const char* value) {

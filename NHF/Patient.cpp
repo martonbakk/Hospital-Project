@@ -58,15 +58,34 @@ void Patient::setSympthoms(const String& symp) {
 	_sympthoms = symp;
 }
 
-void Patient::setTreated(bool treat) {
-	_treated = treat;
-	_sympthoms = "";
+
+
+void Patient::publicData() {
+	std::cout << _name << ":\n";
+	std::cout << _sympthoms << '\n';
 }
 
-void Patient::setDoc(const Doctor& doc) {
-	_docID = doc.getAccountID();
+void Patient::medicineFromNurse(Dictionary& nurseMedicine) {
+	for (size_t i = 0; i < nurseMedicine.getSize(); i++) {
+		for (size_t j = 0; j < _medicinesToGet.getSize(); j++)
+		{
+			if (nurseMedicine[i]._value == _medicinesToGet[j]._value) //Ha van a novernel olyan ami a betegnek kell
+			{
+				if (nurseMedicine[i]._key - _medicinesToGet[j]._key >= 0)
+				{
+					int temp = _medicinesToGet[j]._key;
+					_medicinesToGet[j]._key -= nurseMedicine[i]._key;
+					nurseMedicine[i]._key -= temp;
+				}
+				else {
+					_medicinesToGet[j]._key -= nurseMedicine[i]._key;
+					nurseMedicine[i]._key = 0;
+				}
+			}
+		}
+	}
 }
 
-void Patient::setMedicines(const Dictionary& medicines) {
-	_medicinesToGet = medicines;
+void Patient::medicineReply(const DictionaryEntry& doctorReply) {
+	_medicinesToGet.push_back(doctorReply);
 }

@@ -24,6 +24,7 @@ public:
 	Array& operator=(const Array& rhs);
 	void readFile(const char* FILENAME);
 	void writeFile(const char* FILENAME);
+	size_t size() { return _len; }
 public:
 	template<typename P>
 	size_t indexOfElement(P pred);

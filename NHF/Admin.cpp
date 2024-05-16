@@ -91,12 +91,7 @@ void Admin::deleteAccountfromArray(Array<Doctor>& doctors, Array<Password>& pass
 	}
 	for (size_t i = 0; i < doctors.getLen(); i++)
 	{
-		for (int j = 0; j < doctors[i].getPatientNum(); j++)
-		{
-			if (doctors[i].getPatients()[j]->getAccountID() == element.getAccountID()) {
-				doctors[i].getPatientNum()--;
-			}
-		}
+		doctors[i].deletePatient(element);
 	}
 	patients.delete_element(element);
 }

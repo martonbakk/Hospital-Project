@@ -20,19 +20,17 @@ public:
 public:
     void listAccountInformation() override;     //Saját fiókadatok lekérése 
 public:
-    void setSympthoms(const String& symp);                  //Panaszok, tünetek leírása
-    void setTreated(bool treat);                            //Beallítja, hogy kezeltek-e mar
-    void setDoc(const Doctor& doc);                         //Beallitja a doktort
-    void setMedicines(const Dictionary& medicines);         //Beallitja a felirt gyogyszereket
+    void setSympthoms(const String& symp);                  //Panaszok, tünetek leírása menuopciohoz
+    void setDoc(int docID) { _docID = docID; }         //A doktor betegffelvételhez kell
 public:
-    Dictionary& patientNeededMedicines() { return _medicinesToGet; }  //A noverek ezzel adagoljak a gyogyszert
-    String getSympthoms() { return _sympthoms; }
+    void medicineFromNurse(Dictionary& nurseMedicines);     //A noverek ezzel adagoljak a gyogyszert es a 
+    void medicineReply(const DictionaryEntry& doctorReply);  //doktor ezzel irja fel milyen gyogyszer kell a betegnek
+    void publicData();
     int getDocID() { return _docID; }
 public:
     void loadData(const String& ) override;
     void sendData(std::ostream& os)override;
     void listAllOption() override;
-    String getName() { return _name; }
 };
 
 

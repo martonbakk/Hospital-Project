@@ -9,7 +9,7 @@ void Doctor::listAccountInformation() {
 		<< "You can have " << _maxPatientNum - _patientNum << " more Patients. Your current patients:\n";
 	for (int i = 0; i < _patientNum; i++)
 	{
-		std::cout<<"-" << _patients[i]->getName() << '\n';
+		_patients[i]->publicData();
 	}
 	if (_patientNum==0)
 	{
@@ -33,8 +33,7 @@ int Doctor::listAllPatients(Array<Patient>& patients) {
 	for (size_t i = 0; i < patients.getLen(); i++)
 	{
 		if (patients[i].getDocID() == -1) {
-			std::cout << "Option (" << i + 1 << ")\n" << patients[i].getName() << ":\n";
-			std::cout << patients[i].getSympthoms() << '\n';
+			patients[i].publicData();
 			db++;
 		}
 	}
@@ -67,8 +66,7 @@ void Doctor::sendData(std::ostream& os) {
 void Doctor::seePatientsSympthoms(const Array<Patient>& patients) {
 	for (size_t i = 0; i < patients.getLen(); i++)
 	{
-		std::cout << patients[i].getName() << ":\n";
-		std::cout << patients[i].getSympthoms()<<'\n';
+		patients[i].publicData();
 	}
 }
 
@@ -94,7 +92,7 @@ void Doctor::replyPatientSympthoms(const Dictionary& medicines,const DictionaryE
 		}
 	}
 	if(medicineOnStorage&&enough){
-		_patients[idx]->patientNeededMedicines().push_back(reply);
+		_patients[idx]->medicineReply(reply);
 	}
 	else if (!enough&&medicineOnStorage) {
 		throw "THERE IS NO ENOUGH MEDICINE";
@@ -109,3 +107,12 @@ void Doctor::setMaxPatientNum(int num) {
 }
 
 int Doctor::_maxPatientNum = 5;
+
+void Doctor::deletePatient(Patient& pat) {
+	for (size_t j = 0; j < _patients.size(); j++)
+	{
+		if (_patients[j]->getAccountID() == pat.getAccountID()) {
+			_patientNum--;
+		}
+	}
+}

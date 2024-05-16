@@ -17,12 +17,8 @@ public:
         Account(id, uName, Name, Mail, Phone), _patients(0), _patientNum(0){}
     ~Doctor() { }
 public:
-    String getName() { return _name; }
-    int& getPatientNum() { return _patientNum; }
-    Array<Patient*> getPatients(){ return _patients; }
-public:
-    void listAccountInformation() override;                         //Saját fiókadatok lekérése
-    void seePatientsSympthoms(const Array<Patient>& array);                                    //Beteg panaszainak elolvasása
+    void listAccountInformation() override;                          //Saját fiókadatok lekérése
+    void seePatientsSympthoms(const Array<Patient>& array);          //Beteg panaszainak elolvasása
     void getPatient(Patient* patient);                               //Beteg felvétele
     void listPatients();
     int listAllPatients(Array<Patient>& patients);
@@ -35,6 +31,7 @@ public:
     void listAllOption() override;
 public:
     void setPatients(Array<Patient>& patients);
+    void deletePatient(Patient& patient);
 };
 
 #endif //DOCTOR_H
