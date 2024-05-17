@@ -4,8 +4,8 @@
 /// <summary>
 /// Doktor osztaly fuggvenyei
 /// </summary>
-void Doctor::listAccountInformation() {
-	std::cout << "Role: DOCTOR " << _accountId << " " << _userName << " " << _name << " " << _mail << " " << _phone << "\n"
+void Doctor::listAccountInformation(std::ostream& os) {
+	os << "Role: DOCTOR " << _accountId << " " << _userName << " " << _name << " " << _mail << " " << _phone << "\n"
 		<< "You can have " << _maxPatientNum - _patientNum << " more Patients. Your current patients:\n";
 	for (int i = 0; i < _patientNum; i++)
 	{
@@ -13,14 +13,14 @@ void Doctor::listAccountInformation() {
 	}
 	if (_patientNum==0)
 	{
-		std::cout << "You have no patients\n\n";
+		os << "You have no patients\n\n";
 	}
 }
 
-void Doctor::listPatients() {
+void Doctor::listPatients(std::ostream& os) {
 	for (int i = 0; i < _patientNum; i++){
 		std::cout << "Option: (" << i + 1 << ")\n";
-		_patients[i]->listAccountInformation();
+		_patients[i]->listAccountInformation(os);
 	}
 	if (_patientNum == 0)
 	{
@@ -40,8 +40,8 @@ int Doctor::listAllPatients(Array<Patient>& patients) {
 	return db;
 }
 
-void Doctor::listAllOption() {
-	std::cout << "Beteg panaszainak elolvasasa (1)\nBeteg felvetele (2)\nGyogyszer felirasa mar felvett betegeknek (3)\nKilepes (4)\nVALASSZON OPCIOT: ";
+void Doctor::listAllOption(std::ostream& os) {
+	os << "Beteg panaszainak elolvasasa (1)\nBeteg felvetele (2)\nGyogyszer felirasa mar felvett betegeknek (3)\nKilepes (4)\nVALASSZON OPCIOT: ";
 }
 
 void Doctor::setPatients(Array<Patient>& patients) {

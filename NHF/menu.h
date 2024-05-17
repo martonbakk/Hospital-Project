@@ -41,7 +41,7 @@ class Menu{
     PatientManager patManager;
 public:
     Menu(std::istream& input = std::cin, std::ostream& output = std::cout, int cipher=3):
-        is(input), os(output), encryptor(cipher){}
+        is(input), os(output), encryptor(cipher), userLogin(input, output), adManager(input, output), docManager(input, output), nurManager(input, output), patManager(input, output){}
     void login(Data& datas);
     void adminMenu(Data& datas);
     void doctorMenu(Data& datas);

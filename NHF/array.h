@@ -70,7 +70,7 @@ void Array<T>::writeFile(const char* FILENAME) {
 	{
 		of << _len << '\n';
 		for (size_t i = 0; i < _len; i++) {
-			of<<_array[i];
+			of<<_array[i]<<' ';
 		}
 	}
 	else {

@@ -19,7 +19,7 @@ public:
     Patient(int id = -1, const char* uName = "UNKNOWN", const char* Name = "UNKNOWN", const char* Mail = "UNKNOWN", const char* Phone = "UNKNOWN", const char* symptms = "NONE", bool treated = false, int docid = -1) :
         Account(id, uName, Name, Mail, Phone), _sympthoms(symptms), _medicinesToGet(), _docID(docid), _treated(treated) {}
 public:
-    void listAccountInformation() override;     //Saját fiókadatok lekérése 
+    void listAccountInformation(std::ostream& os) override;     //Saját fiókadatok lekérése 
 public:
     void setSympthoms(const String& symp);                  //Panaszok, tünetek leírása menuopciohoz
     void setDoc(int docID) { _docID = docID; }         //A doktor betegffelvételhez kell
@@ -31,7 +31,7 @@ public:
 public:
     void loadData(const String& ) override;
     void sendData(std::ostream& os)override;
-    void listAllOption() override;
+    void listAllOption(std::ostream& os) override;
 };
 
 

@@ -19,10 +19,10 @@ public:
         Account(id, uName, Name, Mail, Phone), _patients(0), _patientNum(0){}
     ~Doctor() { }
 public:
-    void listAccountInformation() override;                          //Saját fiókadatok lekérése
+    void listAccountInformation(std::ostream& os) override;                          //Saját fiókadatok lekérése
     void seePatientsSympthoms(const Array<Patient>& array);          //Beteg panaszainak elolvasása
     void getPatient(Patient* patient);                               //Beteg felvétele
-    void listPatients();
+    void listPatients(std::ostream& os);
     int listAllPatients(Array<Patient>& patients);
     void replyPatientSympthoms(const Dictionary& medicines, const DictionaryEntry& reply, int idx);   //Gyógyszer felírása vagy elutasítás
 public:
@@ -30,7 +30,7 @@ public:
 public:
     void loadData(const String&)override;
     void sendData(std::ostream& os)override;
-    void listAllOption() override;
+    void listAllOption(std::ostream& os) override;
 public:
     void setPatients(Array<Patient>& patients);
     void deletePatient(Patient& patient);

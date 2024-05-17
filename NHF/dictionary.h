@@ -25,6 +25,7 @@ public:
     void push_back(const DictionaryEntry& newEntry);    //Hatra berakja a bejegyzest
     void readFile(std::istream& is, const char* FILENAME="-");
     void writeFile(const char* FILENAME);
+    void sizeDecrement() { if (_size == 0)throw "Size Error"; _size--; }
 };
 
 std::ostream& operator<<(std::ostream& os, const Dictionary& rhs);
