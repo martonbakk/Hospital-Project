@@ -7,12 +7,10 @@
 void Doctor::listAccountInformation(std::ostream& os) {
 	os << "Role: DOCTOR " << _accountId << " " << _userName << " " << _name << " " << _mail << " " << _phone << "\n"
 		<< "You can have " << _maxPatientNum - _patientNum << " more Patients. Your current patients:\n";
-	for (int i = 0; i < _patientNum; i++)
-	{
+	for (int i = 0; i < _patientNum; i++){
 		_patients[i]->publicData(os);
 	}
-	if (_patientNum==0)
-	{
+	if (_patientNum==0){
 		os << "You have no patients\n\n";
 	}
 }
@@ -22,16 +20,14 @@ void Doctor::listPatients(std::ostream& os) {
 		std::cout << "Option: (" << i + 1 << ")\n";
 		_patients[i]->listAccountInformation(os);
 	}
-	if (_patientNum == 0)
-	{
+	if (_patientNum == 0){
 		std::cout << "You have no patients\n\n";
 	}
 }
 
 int Doctor::listAllPatients(std::ostream& os, Array<Patient>& patients) {
 	int db = 0;
-	for (size_t i = 0; i < patients.getLen(); i++)
-	{
+	for (size_t i = 0; i < patients.getLen(); i++){
 		if (patients[i].getDocID() == -1) {
 			patients[i].publicData(os);
 			db++;
@@ -64,8 +60,7 @@ void Doctor::sendData(std::ostream& os) {
 }
 
 void Doctor::seePatientsSympthoms(std::ostream& os, const Array<Patient>& patients) {
-	for (size_t i = 0; i < patients.getLen(); i++)
-	{
+	for (size_t i = 0; i < patients.getLen(); i++){
 		patients[i].publicData(os);
 	}
 }
@@ -82,8 +77,7 @@ void Doctor::getPatient(Patient* patient) {
 void Doctor::replyPatientSympthoms(const Dictionary& medicines,const DictionaryEntry& reply, int idx) {
 	bool medicineOnStorage = false;
 	bool enough = false;
-	for (size_t i = 0; i < medicines.getSize(); i++)
-	{
+	for (size_t i = 0; i < medicines.getSize(); i++){
 		if (medicines[i]._value == reply._value) {
 			medicineOnStorage = true;
 			if (medicines[i]._key >= reply._key) {
@@ -103,14 +97,14 @@ void Doctor::replyPatientSympthoms(const Dictionary& medicines,const DictionaryE
 }
 
 void Doctor::setMaxPatientNum(int num) {
+	if (num < _maxPatientNum) throw "ERROR: WHILE SETTING THE PATIENT NUM: YOU CANT GIVE A LOWER NUMBER";
 	_maxPatientNum = num;
 }
 
 int Doctor::_maxPatientNum = 5;
 
 void Doctor::deletePatient(Patient& pat) {
-	for (size_t j = 0; j < _patients.size(); j++)
-	{
+	for (size_t j = 0; j < _patients.size(); j++){
 		if (_patients[j]->getAccountID() == pat.getAccountID()) {
 			_patientNum--;
 		}
