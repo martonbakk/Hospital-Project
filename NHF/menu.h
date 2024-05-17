@@ -31,7 +31,7 @@ struct Data {
 class Menu{
     std::istream& is;
     std::ostream& os;
-    CaesarCipher encryptor;   //mindig harom az erteke
+    CaesarCipher encryptor;   
     userAccount user;
     MenuOptions menuOPS;
     LoginManager userLogin;
@@ -39,9 +39,10 @@ class Menu{
     DoctorManager docManager;
     NurseManager nurManager;
     PatientManager patManager;
+    String userName, password, firstName, lastName, email, phone;
 public:
     Menu(std::istream& input = std::cin, std::ostream& output = std::cout, int cipher=3):
-        is(input), os(output), encryptor(cipher){}
+        is(input), os(output), encryptor(cipher), userLogin(input, output), adManager(input, output), docManager(input, output), nurManager(input, output), patManager(input, output){}
     void login(Data& datas);
     void adminMenu(Data& datas);
     void doctorMenu(Data& datas);

@@ -3,19 +3,19 @@
 /// <summary>
 /// Nurse osztaly fuggvenyei
 /// </summary>
-void Nurse::listAccountInformation() {
-	std::cout << "Role: NURSE Username: " << _userName << " Full-name: " << _name
+void Nurse::listAccountInformation(std::ostream& os) {
+	os << "Role: NURSE Username: " << _userName << " Full-name: " << _name
 		<< " Mail: " << _mail << " Phonenumber: " << _phone << '\n';
 	if (_medicinesToGive.getSize() == 0) {
-		std::cout << "No medicine to give\n";
+		os << "No medicine to give\n";
 	}
 	else {
-		std::cout << "The following medicines need to be served:\n" << _medicinesToGive<<'\n';
+		os << "The following medicines need to be served:\n" << _medicinesToGive<<'\n';
 	}
 }
 
-void Nurse::listAllOption() {
-	std::cout << "Gyogyszer adagolasa a betegeknek (1)\nGyogyszer kivetele a raktarbol(2)\nKilepes (3)\nVALASSZON OPCIOT: ";
+void Nurse::listAllOption(std::ostream& os) {
+	os << "Gyogyszer adagolasa a betegeknek (1)\nGyogyszer kivetele a raktarbol(2)\nKilepes (3)\nVALASSZON OPCIOT: ";
 }
 
 void Nurse::loadData(const String& accountINF) {

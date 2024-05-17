@@ -4,19 +4,19 @@
 /// <summary>
 /// Patient osztaly fuggvenyei
 /// </summary>
-void Patient::listAccountInformation() {
-	std::cout << "Role: PATIENT Username: " << _userName << " Full-name: " << _name
+void Patient::listAccountInformation(std::ostream& os) {
+	os << "Role: PATIENT Username: " << _userName << " Full-name: " << _name
 		<< " Mail: " << _mail << " Phonenumber: " << _phone;
 	if (!_treated) {
-		std::cout << "\nYour currently reported sympthoms: " << _sympthoms << "\nMedicines you will get:\n" << _medicinesToGet << '\n';
+		os << "\nYour currently reported sympthoms: " << _sympthoms << "\nMedicines you will get:\n" << _medicinesToGet << '\n';
 	}
 	else {
-		std::cout << "\nYou are treated!\n";
+		os << "\nYou are treated!\n";
 	}
 }
 
-void Patient::listAllOption() {
-	std::cout << "Panaszok, tunetek leirasa (1)\nKilepes (2)\nValasszon opciot: ";
+void Patient::listAllOption(std::ostream& os) {
+	os << "Panaszok, tunetek leirasa (1)\nKilepes (2)\nValasszon opciot: ";
 }
 
 void Patient::loadData(const String& accountINF) {
@@ -60,9 +60,9 @@ void Patient::setSympthoms(const String& symp) {
 
 
 
-void Patient::publicData() {
-	std::cout << _name << ":\n";
-	std::cout << _sympthoms << '\n';
+void Patient::publicData(std::ostream& os) {
+	os << _name << ":\n";
+	os<< _sympthoms << '\n';
 }
 
 void Patient::medicineFromNurse(Dictionary& nurseMedicine) {

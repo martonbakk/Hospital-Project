@@ -1,4 +1,4 @@
-4
+3
 7
 {kkk}
 {2 Aspirin 3 Algoflex 1 }
@@ -8,7 +8,7 @@ kendo
 Kendo Kando
 masd@gmail.com
 06304057101* 
-8
+ 8
 {Hasmenes es fejfajas.}
 {1 Szemcsepp 3 }
 6
@@ -17,7 +17,7 @@ allisonsms
 John Doe
 ewfasd@gmail.com
 06304082734* 
-9
+ 9
 {Rossz kozerzet. Lazas vagyok.}
 {1 Algoflex 3 }
 6
@@ -26,12 +26,4 @@ vasjoc
 Vas Joci
 vjoccika@gmail.com
 06517109876* 
-13
-{Hanyinger.}
-{0 }
-4
-0
-kisborz
-kis Borz
-kborz@gmail.com
-06517109876* 
+ 

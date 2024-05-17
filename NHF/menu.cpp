@@ -1,5 +1,5 @@
 #include "Menu.h"
-
+#include <string>
 
 void Menu::login(Data& datas){
 	userLogin.getTypeAndIDX(datas.passwords, encryptor);
@@ -121,5 +121,38 @@ void Menu::mainMenu() {
 }
 
 void Menu::registration(Data& datas) {
-
+	os << "Regisztracio:\nKerem adja meg milyen fiokot szeretne regisztralni\nAdmin(1)\nDoctor(2)\nNurse(3)\nPatient(4)\nVALASSZON OPCIOT: ";
+	int ops;
+	is >> ops;
+	int ID =datas.passwords.getLen() + 1;
+	os << "Adja meg a kovetkezo adatokat a kovetkezo sorrendben: felhasznalonev, jelszo, csaladnev, keresztnev, emailcim, telefonszam.\n";
+	os << "A jelszo es a felhsznalo nev nem tartalmazhat csillag (*) karaktert, tovabba ha tobb keresztneve vagy csaladneve van csak egyet adjon meg!\npl.:(rmekelek jelszo Remek Elek remk@example.com 6311234567)";
+	is >> userName >> password >> firstName >> lastName >> email >> phone;
+	std::string uname(userName.getText());
+	std::string pwd(password.getText());
+	if (uname.find('*') != std::string::npos || pwd.find('*') != std::string::npos) {
+		os << "Hibas felhasznalonev vagy jelszo! Nem tartalmazhat csillag (*) karaktert.\n";
+		return;
+	}
+	switch (AccountType(ops)) {
+	case ad:
+		datas.admins.push_back(Admin(false, ID, userName.getText(), (firstName + " " + lastName).getText(), email.getText(), phone.getText()));
+		datas.passwords.push_back(Password(ID, 1, userName.getText(), encryptor.encode(password.getText()).getText()));
+		break;
+	case doc:
+		datas.doctors.push_back(Doctor(ID, userName.getText(), (firstName + " " + lastName).getText(), email.getText(), phone.getText()));
+		datas.passwords.push_back(Password(ID, 1, userName.getText(), encryptor.encode(password.getText()).getText()));
+		break;
+	case pat:
+		datas.patients.push_back(Patient(ID, userName.getText(), (firstName + " " + lastName).getText(), email.getText(), phone.getText()));
+		datas.passwords.push_back(Password(ID, 1, userName.getText(), encryptor.encode(password.getText()).getText()));
+		break;
+	case nur:
+		datas.nurses.push_back(Nurse(ID, userName.getText(), (firstName + " " + lastName).getText(), email.getText(), phone.getText()));
+		datas.passwords.push_back(Password(ID, 1, userName.getText(), encryptor.encode(password.getText()).getText()));
+		break;
+	default:
+		os << "Rossz opciot adott meg.\n";
+		break;
+	}
 }

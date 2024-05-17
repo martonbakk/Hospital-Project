@@ -10,12 +10,12 @@
 /// <summary>
 /// Admin osztaly fuggvenyei
 /// </summary>
-void Admin::listAccountInformation() {
-	std::cout << "Role: ADMIN " << _accountId << " " << _userName << " " << _name << " " << _mail << " " << _phone << " " << (_verified ? "Verified" : "Not verified") << "\n";
+void Admin::listAccountInformation(std::ostream& os) {
+	os << "Role: ADMIN " << _accountId << " " << _userName << " " << _name << " " << _mail << " " << _phone << " " << (_verified ? "Verified" : "Not verified") << "\n";
 }
 
-void Admin::listAllOption() {
-	std::cout << "Fiokok torlese (1)\nFiokok szerkeztese (2)\nOsszes fiok listazasa (3) \nGyogyszerek torlese a raktarbol (4) \nUj admin fiok engedelyezese (5) \nDoktorok betegeinek korlatozasa (6)\nKilepes (7)\nVALASSZON OPCIOT: ";
+void Admin::listAllOption(std::ostream& os) {
+	os << "Fiokok torlese (1)\nFiokok szerkeztese (2)\nOsszes fiok listazasa (3) \nGyogyszerek torlese a raktarbol (4) \nUj admin fiok engedelyezese (5) \nDoktorok betegeinek korlatozasa (6)\nKilepes (7)\nVALASSZON OPCIOT: ";
 }
 
 void Admin::loadData(const String& accountINF) {
@@ -34,49 +34,52 @@ void Admin::deleteMedicine(Dictionary& medicines, const char* medicine) {
 	for (size_t i = 0; i < medicines.getSize(); i++){
 		if (medicines[i]._value==medicine){
 			medicines[i]._key = 0;
+			medicines.sizeDecrement();
 		}
 	}
 }
 
 
-void Admin::listAllAccount(const Array<Patient>& patients, const Array<Nurse>& nurses, const Array<Admin>& admins, const Array<Doctor>& doctors) {
-	std::cout << "Option: Admin (1)\n";
+void Admin::listAllAccount(std::ostream& os, const Array<Patient>& patients, const Array<Nurse>& nurses, const Array<Admin>& admins, const Array<Doctor>& doctors) {
+	os << "Option: Admin (1)\n";
 	for (size_t i = 0; i < admins.getLen(); i++)
 	{
-		std::cout << "Option " << i + 1 << ")\n";
-		admins[i].listAccountInformation();
+		os << "Option " << i + 1 << ")\n";
+		admins[i].listAccountInformation(os);
 	}
-	std::cout << "\nOption: Doctor (2)\n";
+	os << "\nOption: Doctor (2)\n";
 	for (size_t i = 0; i < doctors.getLen(); i++)
 	{
-		std::cout << "Option " << i + 1 << ")\n";
-		doctors[i].listAccountInformation();
+		os << "Option " << i + 1 << ")\n";
+		doctors[i].listAccountInformation(os);
 	}
-	std::cout << "Option: Nurse (3)\n";
+	os << "Option: Nurse (3)\n";
 	for (size_t i = 0; i < nurses.getLen(); i++)
 	{
-		std::cout << "Option " << i + 1 << ")\n";
-		nurses[i].listAccountInformation();
+		os << "Option " << i + 1 << ")\n";
+		nurses[i].listAccountInformation(os);
 	}
-	std::cout << "Option: Patient (4)\n";
+	os << "Option: Patient (4)\n";
 	for (size_t i = 0; i < patients.getLen(); i++)
 	{
-		std::cout << "Option " << i + 1 << ")\n";
-		patients[i].listAccountInformation();
+		os << "Option " << i + 1 << ")\n";
+		patients[i].listAccountInformation(os);
 	}
 }
 
-void Admin::listAllPatientAccount(const Array<Patient>& patients) {
+void Admin::listAllPatientAccount(std::ostream& os, const Array<Patient>& patients) {
 	for (size_t i = 0; i < patients.getLen(); i++)
 	{
-		std::cout << "Opcio " << i+1<<'\n';
-		patients[i].listAccountInformation();
+		os << "Opcio " << i+1<<'\n';
+		patients[i].listAccountInformation(os);
 	}
 }
 
 void Admin::setDoctorsMaxPatientNum(int num) {
-	if(num>1)
+	if (num > 1)
 		Doctor::setMaxPatientNum(num);
+	else
+		throw "ADMIN: SET DOC MAX PATIENT";
 }
 
 void  Admin::verifyAdmins(Admin& user) {

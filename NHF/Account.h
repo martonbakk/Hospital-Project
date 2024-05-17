@@ -29,7 +29,7 @@ public:
         _phone(Phone) {}
     ~Account() {};
 public:
-    virtual void listAccountInformation() = 0; //Saját fiókadatok lekérése
+    virtual void listAccountInformation(std::ostream& os) = 0; //Saját fiókadatok lekérése
     void editAccountInformation(const char* Name, const char* Mail, const char* Phone); //Saját fiók szerkeztése
     int getAccountID() const { return _accountId; }
 public:
@@ -39,7 +39,7 @@ public:
 public:
     virtual void loadData(const String& ss)=0;
     virtual void sendData(std::ostream& os)=0;
-    virtual void listAllOption()=0;
+    virtual void listAllOption(std::ostream& os)=0;
 public:
     friend std::ifstream& operator>>(std::ifstream& is, Account& member);
     friend std::ofstream& operator<<(std::ofstream& is, Account& member);
