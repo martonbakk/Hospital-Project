@@ -4,6 +4,7 @@
 #include "Account.h"
 #include "Patient.h"
 
+#include "memtrace.h"
 
 /// @Ápoló fiók ///
 class Nurse : public Account {

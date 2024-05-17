@@ -1,6 +1,7 @@
 #include <iostream>
-//Tarolok
+//String
 #include "myString.h"
+//Tarolok
 #include "dictionary.h"
 #include "array.h"
 //Fiokok
@@ -14,21 +15,13 @@
 #include "CaesarCipher.h"
 //Inputkezelo
 #include "manager.h"
+#include "Menu.h"
 //Teszt
 #include "gtest_lite.h"
+#include "memtrace.h"
 
 using std::cout;
 using std::cin;
-
-/*
-* TO DO: 
-* - A doktornak ki kell irni a max patient num szamat fileba
-* - A tesztek torzseinek megirasa 
-* - A dictionary valamiert a vegere neha odarak egy 4 4-es rekordot a fajlba
-* - A try catch-ek berakasa a fuggvenyekbe ahol meg nem tortent meg es ahol lehet
-* - Az input es output fixalasa a teszthez
-* - Clean code... Kommentek megirasa, a fuggvenyek tagolasa logikusan, az input kezelo osztalyok rendszerezese, igeny szerint tobb fajlba bontasa, szemetek kiszurese
-*/
 
 //Leiras
 /*
@@ -43,34 +36,20 @@ int main() {
 #if !TESZT&&PROGRAM
 	std::ifstream fs;
 	///Tarolok
-	Dictionary medicines;
-	Array<Admin>admins;
-	Array<Doctor>doctors;
-	Array<Patient>patients;
-	Array<Nurse>nurses;
-	Array<Password>passwords;
-	///Felhasznalo
-	LoginManager user;
-	///Menu kezelok
-	MenuOptions menuOPS;
-	AdminManager adManager;
-	DoctorManager docManager;
-	NurseManager nurManager;
-	PatientManager patManager;
-	///Jelszo titkositas
-	CaesarCipher encryptor(3);
-
+	Data datas;
+	///Menu 
+	Menu program;
 	try {
 		//--FAJLBOL OLVASAS--
-		medicines.readFile(fs, "medicines.txt");
-		passwords.readFile("pwd.txt");
-		admins.readFile("admin.txt");
-		doctors.readFile("doctor.txt");
-		patients.readFile("patient.txt");
-		nurses.readFile("nurse.txt");
+		datas.medicines.readFile(fs, "medicines.txt");
+		datas.passwords.readFile("pwd.txt");
+		datas.admins.readFile("admin.txt");
+		datas.doctors.readFile("doctor.txt");
+		datas.patients.readFile("patient.txt");
+		datas.nurses.readFile("nurse.txt");
 
-		for (size_t i = 0; i < doctors.getLen(); i++) {
-			doctors[i].setPatients(patients);
+		for (size_t i = 0; i < datas.doctors.getLen(); i++) {
+			datas.doctors[i].setPatients(datas.patients);
 		}
 	}
 	catch (const char* ERROR) {
@@ -79,128 +58,33 @@ int main() {
 #endif 
 #if PROGRAM&&!TESZT
 	//PROGRAM
-	cout << "KORHAZI ADATBAZIS KEZELO PROGRAM\nBejelentkezes (1)\nRegisztacio (2)\nKilepes (3)\nVALASSZON OPCIOT: ";
-	cin >> menuOPS.mainMenuOption;
-	while (menuOPS.mainMenuOption != 3)
-	{
-		switch (menuOPS.mainMenuOption)
-		{
-		case 1:
-			user.loginUser(passwords, encryptor);
-				user.setAccountIndex(admins, doctors, nurses, patients);
-			switch (AccountType(user.getAccountType()))
-			{
+	program.mainMenu();
+	while (program.run()){
+		switch (program.getMainOps()){
+		case 1:	
+			program.login(datas);
+			switch (AccountType(program.getAccountType())){
 			case ad:
-				adManager.adminMenu(admins, user, menuOPS);
-				switch (menuOPS.adminMenuOption)
-				{
-				case 1://Fiokok torlese
-						adManager.adminDelete(user, admins, patients, doctors, passwords);
-					break;
-				case 2://Fiokok szerkeztese
-					try {
-						adManager.adminEditAccount(user, admins, patients, doctors, nurses);
-					}
-					catch (const char* ERROR) { std::cout << ERROR; }
-					break;
-				case 3://Osszes fiok listazasa
-					adManager.adminListAccounts(user, admins, doctors, nurses, patients);
-					break;
-				case 4://Gyogyszerek torlese a raktarbol
-					adManager.adminDeleteMedicine(medicines);
-					break;
-				case 5://Uj admin fiok engedelyezese
-					adManager.adminVerifyAdminAccount(user, admins);
-					break;
-				case 6://Doktorok betegeinek korlatozasa
-					adManager.adminSetDoctorsLimit(user, admins);	/// NINCS KIIRVA A FAJLBA MEG!!!!!!!!!!!!!!!!!!!!!!!!!
-					break;
-				case 7://Kilepes
-					menuOPS.mainMenuOption=3;
-					break;
-				default:
-					cout << "Nincs ilyen opcio...\nValasszon ujat: ";
-					int op;
-					cin >> op;
-					menuOPS.mainMenuOption = op;
-					break;
-				}
+				program.adminMenu(datas);
 				break;
 			case doc:
-				docManager.doctorMenu(user, menuOPS,doctors);
-				switch (menuOPS.doctorMenuOption)
-				{
-				case 1://Beteg panaszainak elolvasasa
-					docManager.doctorSeePatients(user, doctors, patients);
-					break;
-				case 2://Beteg felvetele
-					docManager.doctorGetPatient(user, doctors, patients);
-					break;
-				case 3://Gyogyszer felirasa mar felvett betegeknek
-					docManager.doctorReplyToPatient(user, doctors, medicines);
-					break;
-				case 4://Kilepes
-					menuOPS.mainMenuOption = 3;
-					break;
-				default:
-					cout << "Nincs ilyen opcio...\nValasszon ujat: ";
-					int op;
-					cin >> op;
-					menuOPS.mainMenuOption = op;
-					break;
-				}
+				program.doctorMenu(datas);
 				break;
 			case pat:
-				patManager.patientMenu(user, menuOPS, patients);
-				switch (menuOPS.patientMenuOption) {
-				case 1:
-					patManager.patientSetSymp(user, patients);
-					break;
-				case 2:
-					menuOPS.mainMenuOption = 3;
-					break;
-				default:
-					cout << "Nincs ilyen opcio...\nValasszon ujat: ";
-					int op;
-					cin >> op;
-					menuOPS.mainMenuOption = op;
-					break;
-				}
+				program.patientMenu(datas);
 				break;
 			case nur:
-				nurManager.nurseMenu(user, menuOPS, nurses);
-				switch (menuOPS.nurseMenuOption)
-				{
-				case 1://Gyogyszerek adagolasa a betegnek
-					nurManager.nurseGiveMedicines(user, nurses, patients);
-					break;
-				case 2://Gyogyszerek kivetele a raktarbol
-					nurManager.nurseGetMedicineFromStorage(user, nurses, medicines);
-					break;
-				case 3://Kilepes
-					menuOPS.mainMenuOption = 3;
-					break;
-				default:
-					cout << "Nincs ilyen opcio...\nValasszon ujat: ";
-					int op;
-					cin >> op;
-					menuOPS.mainMenuOption = op;
-					break;
-				}
+				program.nurseMenu(datas);
 				break;
 			default:
-				cout << "Nem sikerult bejelentkeznie...\nKilepeshez nyomja meg a harmast\nUjboli probalkozashoz nyomja meg az egyest: ";
-				int opt;
-				cin >> opt;
-				menuOPS.mainMenuOption=opt;
+				program.loginError();
 				break;
 			}
 			break;
 		case 2:
-
+			program.registration(datas);
 			break;
 		default:
-			cout << "Nincs ilyen opcio...\nVALASSZON OPCIOT: ";
 			break;
 		}
 	}
@@ -301,12 +185,12 @@ int main() {
 	*/
 	try {
 		//--FAJLBA IRAS--
-		medicines.writeFile("medicines.txt");
-		passwords.writeFile("pwd.txt");
-		admins.writeFile("admin.txt");
-		doctors.writeFile("doctor.txt");
-		patients.writeFile("patient.txt");
-		nurses.writeFile("nurse.txt");
+		datas.medicines.writeFile("medicines.txt");
+		datas.passwords.writeFile("pwd.txt");
+		datas.admins.writeFile("admin.txt");
+		datas.doctors.writeFile("doctor.txt");
+		datas.patients.writeFile("patient.txt");
+		datas.nurses.writeFile("nurse.txt");
 	}
 	catch (const char* ERROR) {
 		cout << ERROR << '\n';

@@ -84,13 +84,11 @@ void  Admin::verifyAdmins(Admin& user) {
 }
 
 void Admin::deleteAccountfromArray(Array<Doctor>& doctors, Array<Password>& passwords,Array<Patient>& patients, Patient& element) {
-	for (size_t i = 0; i < passwords.getLen(); i++)
-	{
+	for (size_t i = 0; i < passwords.getLen(); i++){
 		if (passwords[i].getID() == element.getAccountID())
 			passwords.delete_element(passwords[i]);
 	}
-	for (size_t i = 0; i < doctors.getLen(); i++)
-	{
+	for (size_t i = 0; i < doctors.getLen(); i++){
 		doctors[i].deletePatient(element);
 	}
 	patients.delete_element(element);

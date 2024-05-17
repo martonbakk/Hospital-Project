@@ -4,6 +4,7 @@
 #include "Account.h"
 #include "Doctor.h"
 #include "myString.h"
+#include "memtrace.h"
 
 class Doctor;
 

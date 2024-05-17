@@ -1,6 +1,8 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
+#include "memtrace.h"
+
 #include "Account.h"
 
 #include <iostream>

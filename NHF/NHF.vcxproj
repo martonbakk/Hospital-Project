@@ -134,6 +134,7 @@
     <ClCompile Include="Doctor.cpp" />
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="memtrace.cpp" />
+    <ClCompile Include="menu.cpp" />
     <ClCompile Include="myString.cpp" />
     <ClCompile Include="Nurse.cpp" />
     <ClCompile Include="Password.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="gtest_lite.h" />
     <ClInclude Include="manager.h" />
     <ClInclude Include="memtrace.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="myString.h" />
     <ClInclude Include="Nurse.h" />
     <ClInclude Include="password.h" />

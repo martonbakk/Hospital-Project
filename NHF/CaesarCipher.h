@@ -2,6 +2,8 @@
 #define CAESARCIPHER_H
 
 #include "myString.h"
+#include "memtrace.h"
+
 
 class CaesarCipher {
     int shift;

@@ -3,6 +3,7 @@
 
 #include "myString.h"
 #include "dictionary.h"
+#include "memtrace.h"
 /*
 Ebben a header fájlban vannak megírva a különbözõ felhasználói fiókok osztályai. Az Account az interface
 belõle származik le az összes többi fiók. Minden fitípús rendelkezik a következõ függvényekkel:Saját fiókadatok lekérése,
