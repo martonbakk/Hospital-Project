@@ -1,6 +1,6 @@
 #include "manager.h"
 
-void LoginManager::loginUser(Array<Password>& passwords, CaesarCipher& encryptor) {
+void LoginManager::getTypeAndIDX(Array<Password>& passwords, CaesarCipher& encryptor) {
     if (!logged) {
         os << "Adja meg a felhasznalo nevet:";
         is >> username;
@@ -16,7 +16,7 @@ void LoginManager::loginUser(Array<Password>& passwords, CaesarCipher& encryptor
     }
 }
 
-void LoginManager::setAccountIndex(Array<Admin>& admins, Array<Doctor>& doctors, Array<Nurse>& nurses, Array<Patient>& patients) {
+void LoginManager::setAccount(Array<Admin>& admins, Array<Doctor>& doctors, Array<Nurse>& nurses, Array<Patient>& patients, userAccount& user) {
     int loggedInAccountID = this->loggedInAccountID;
     switch (AccountType(loggedInAccountType))
     {
@@ -24,21 +24,25 @@ void LoginManager::setAccountIndex(Array<Admin>& admins, Array<Doctor>& doctors,
         loggedInAccountIDX = admins.indexOfElement([loggedInAccountID](const Admin& admin) {
             return admin.getAccountID() == loggedInAccountID;
             });
+        user.admin = &admins[loggedInAccountIDX];
         break;
     case doc:
         loggedInAccountIDX = doctors.indexOfElement([loggedInAccountID](const Doctor& doctor) {
             return doctor.getAccountID() == loggedInAccountID;
             });
+        user.doctor = &doctors[loggedInAccountIDX];
         break;
     case pat:
         loggedInAccountIDX = patients.indexOfElement([loggedInAccountID](const Patient& patient) {
             return patient.getAccountID() == loggedInAccountID;
             });
+        user.patient = &patients[loggedInAccountIDX];
         break;
     case nur:
         loggedInAccountIDX = nurses.indexOfElement([loggedInAccountID](const Nurse& nurse) {
             return nurse.getAccountID() == loggedInAccountID;
             });
+        user.nurse = &nurses[loggedInAccountIDX];
         break;
     default:
         break;
@@ -47,10 +51,10 @@ void LoginManager::setAccountIndex(Array<Admin>& admins, Array<Doctor>& doctors,
 
 
 //Admin manager
-void AdminManager::adminMenu(Array<Admin>& admins, LoginManager& user, MenuOptions& ops) {
+void AdminManager::adminMenu(userAccount& user, Array<Admin>& admins, MenuOptions& ops) {
     try {
-        admins[user.getloggedInAccountIDX()].listAccountInformation();
-        admins[user.getloggedInAccountIDX()].listAllOption();
+        user.admin->listAccountInformation();
+       user.admin->listAllOption();
     }
     catch (...) {
         os << "ID ERROR\n";
@@ -58,14 +62,15 @@ void AdminManager::adminMenu(Array<Admin>& admins, LoginManager& user, MenuOptio
     is >> ops.adminMenuOption;
 }
 
-void AdminManager::adminDelete(LoginManager& user, Array<Admin>& admins, Array<Patient>& patients, Array<Doctor>& doctors, Array<Password>& passwords) {
+void AdminManager::adminDelete(userAccount& user, Array<Admin>& admins, Array<Patient>& patients, Array<Doctor>& doctors, Array<Password>& passwords) {
 
-    admins[user.getloggedInAccountIDX()].listAllPatientAccount(patients);
+    user.admin->listAllPatientAccount(patients);
     os << "VALASSZA KI MELYIK FIOKOT SZERETNE TOROLNI: ";
     is >> adminDeleteOption;
-    if (adminDeleteOption < patients.getLen() && adminDeleteOption>0) {
+    if (adminDeleteOption <= patients.getLen() && adminDeleteOption>0) {
         try {
-            admins[user.getloggedInAccountIDX()].deleteAccountfromArray(doctors, passwords, patients, patients[adminDeleteOption - 1]);
+            os << adminDeleteOption;
+            user.admin->deleteAccountfromArray(doctors, passwords, patients, patients[adminDeleteOption - 1]);
         }
         catch (...) {
             os << "DELETE ERROR";
@@ -76,8 +81,8 @@ void AdminManager::adminDelete(LoginManager& user, Array<Admin>& admins, Array<P
     }
 }
 
-void AdminManager::adminEditAccount(LoginManager& user, Array<Admin>& admins, Array<Patient>& patients, Array<Doctor>& doctors, Array<Nurse>& nurses) {
-    admins[user.getloggedInAccountIDX()].listAllAccount(patients, nurses, admins, doctors);
+void AdminManager::adminEditAccount(userAccount& user, Array<Admin>& admins, Array<Patient>& patients, Array<Doctor>& doctors, Array<Nurse>& nurses) {
+    user.admin->listAllAccount(patients, nurses, admins, doctors);
     os << "VALASSZA KI MELYIK FIOKTIPUST SZERETNE SZERKEZTENI: ";
     is >> adminEditTypeOption;
     if (adminEditTypeOption > 4 || adminEditTypeOption < 1) {
@@ -97,33 +102,33 @@ void AdminManager::adminEditAccount(LoginManager& user, Array<Admin>& admins, Ar
         if (adminEditOptionIdx > admins.getLen() || adminEditOptionIdx < 0) {
             throw "YOU MIGHT GAVE A WRONG INDEX\n";
         }
-        admins[user.getloggedInAccountIDX()].editAccountfromList(admins[adminEditOptionIdx - 1], name.getText(), editedEmail.getText(), editedPhone.getText());
+        user.admin->editAccountfromList(admins[adminEditOptionIdx - 1], name.getText(), editedEmail.getText(), editedPhone.getText());
         break;
     case 2:
         if (adminEditOptionIdx > doctors.getLen() || adminEditOptionIdx < 0) {
             throw "YOU MIGHT GAVE A WRONG INDEX\n";
         }
-        admins[user.getloggedInAccountIDX()].editAccountfromList(doctors[adminEditOptionIdx - 1], name.getText(), editedEmail.getText(), editedPhone.getText());
+        user.admin->editAccountfromList(doctors[adminEditOptionIdx - 1], name.getText(), editedEmail.getText(), editedPhone.getText());
         break;
     case 3:
         if (adminEditOptionIdx > nurses.getLen() || adminEditOptionIdx < 0) {
             throw "YOU MIGHT GAVE A WRONG INDEX\n";
         }
-        admins[user.getloggedInAccountIDX()].editAccountfromList(nurses[adminEditOptionIdx - 1], name.getText(), editedEmail.getText(), editedPhone.getText());
+        user.admin->editAccountfromList(nurses[adminEditOptionIdx - 1], name.getText(), editedEmail.getText(), editedPhone.getText());
         break;
     case 4:
         if (adminEditOptionIdx > patients.getLen() || adminEditOptionIdx < 0) {
             throw "YOU MIGHT GAVE A WRONG INDEX\n";
         }
-        admins[user.getloggedInAccountIDX()].editAccountfromList(patients[adminEditOptionIdx - 1], name.getText(), editedEmail.getText(), editedPhone.getText());
+        user.admin->editAccountfromList(patients[adminEditOptionIdx - 1], name.getText(), editedEmail.getText(), editedPhone.getText());
         break;
     default:
         break;
     }
 }
 
-void AdminManager::adminListAccounts(LoginManager& user, Array<Admin>& admins, Array<Doctor>& doctors, Array<Nurse>& nurses, Array<Patient>& patients) {
-    admins[user.getloggedInAccountIDX()].listAllAccount(patients, nurses, admins, doctors);
+void AdminManager::adminListAccounts(userAccount& user, Array<Admin>& admins, Array<Doctor>& doctors, Array<Nurse>& nurses, Array<Patient>& patients) {
+    user.admin->listAllAccount(patients, nurses, admins, doctors);
 }
 
 void AdminManager::adminDeleteMedicine(Dictionary& medicines) {
@@ -136,7 +141,7 @@ void AdminManager::adminDeleteMedicine(Dictionary& medicines) {
     }
 }
 
-void AdminManager::adminVerifyAdminAccount(LoginManager& user, Array<Admin>& admins) {
+void AdminManager::adminVerifyAdminAccount(userAccount& user, Array<Admin>& admins) {
     for (size_t i = 0; i < admins.getLen(); i++) {
         os << "Opcio " << i + 1 << '\n';
         admins[i].listAccountInformation();
@@ -144,17 +149,17 @@ void AdminManager::adminVerifyAdminAccount(LoginManager& user, Array<Admin>& adm
     os << "Adja meg melyik admin fiokot szeretne engedelyeztetni: ";
     is >> adminVerifyOption;
     try {
-        admins[user.getloggedInAccountIDX()].verifyAdmins(admins[adminVerifyOption - 1]);
+        user.admin->verifyAdmins(admins[adminVerifyOption - 1]);
     }
     catch (...) {
         throw "There is no option like this\n";
     }
 }
 
-void AdminManager::adminSetDoctorsLimit(LoginManager& user, Array<Admin>& admins) {
+void AdminManager::adminSetDoctorsLimit(userAccount& user, Array<Admin>& admins) {
     os << "Adja meg mennyire szeretne korlatozni a betegek szamat: ";
     is >> adminSetPatientMaxNum;
-    admins[user.getloggedInAccountIDX()].setDoctorsMaxPatientNum(adminSetPatientMaxNum);
+    user.admin->setDoctorsMaxPatientNum(adminSetPatientMaxNum);
 }
 
 void AdminManager::adminDefault(MenuOptions& ops) {
@@ -166,10 +171,10 @@ void AdminManager::adminDefault(MenuOptions& ops) {
 
 
 //Doctor Manager
-void DoctorManager::doctorMenu(LoginManager& user, MenuOptions& ops, Array<Doctor>& doctors) {
+void DoctorManager::doctorMenu(userAccount& user, MenuOptions& ops, Array<Doctor>& doctors) {
     try {
-        doctors[user.getloggedInAccountIDX()].listAccountInformation();
-        doctors[user.getloggedInAccountIDX()].listAllOption();
+        user.doctor->listAccountInformation();
+        user.doctor->listAllOption();
     }
     catch (...) {
         os << "ID ERROR";
@@ -177,12 +182,12 @@ void DoctorManager::doctorMenu(LoginManager& user, MenuOptions& ops, Array<Docto
     is >> ops.doctorMenuOption;
 }
 
-void DoctorManager::doctorGetPatient(LoginManager& user, Array<Doctor>& doctors, Array<Patient>& patients) {
-    if (doctors[user.getloggedInAccountIDX()].listAllPatients(patients) != 0) {
+void DoctorManager::doctorGetPatient(userAccount& user, Array<Doctor>& doctors, Array<Patient>& patients) {
+    if (user.doctor->listAllPatients(patients) != 0) {
         os << "Valassza ki melyik beteget szeretne magahoz venni:";
         is >> doctorGetPatientOption;
         try {
-            doctors[user.getloggedInAccountIDX()].getPatient(&patients[doctorGetPatientOption - 1]);
+            user.doctor->getPatient(&patients[doctorGetPatientOption - 1]);
         }
         catch (const char* ERROR) {
             os << ERROR;
@@ -193,8 +198,8 @@ void DoctorManager::doctorGetPatient(LoginManager& user, Array<Doctor>& doctors,
     }
 }
 
-void DoctorManager::doctorReplyToPatient(LoginManager& user, Array<Doctor>& doctors, Dictionary& medicines) {
-    doctors[user.getloggedInAccountIDX()].listPatients();
+void DoctorManager::doctorReplyToPatient(userAccount& user, Array<Doctor>& doctors, Dictionary& medicines) {
+    user.doctor->listPatients();
     os << "Valassza ki melyik betegnek akarja felirni a gyogyszert: ";
     is >> doctorPatientIDX;
     os << "Adja meg a gyogyszer nevet: ";
@@ -202,22 +207,22 @@ void DoctorManager::doctorReplyToPatient(LoginManager& user, Array<Doctor>& doct
     os << "Adja meg mennyit szedjen belole: ";
     is >> doctorReplyKey;
     try {
-        doctors[user.getloggedInAccountIDX()].replyPatientSympthoms(medicines, DictionaryEntry(doctorReplyKey, doctorReplyMedicine.getText()), doctorPatientIDX - 1);
+        user.doctor->replyPatientSympthoms(medicines, DictionaryEntry(doctorReplyKey, doctorReplyMedicine.getText()), doctorPatientIDX - 1);
     }
     catch (const char* ERROR) {
         os << ERROR;
     }
 }
 
-void DoctorManager::doctorSeePatients(LoginManager& user, Array<Doctor>& doctors, Array<Patient>& patients) {
-    doctors[user.getloggedInAccountIDX()].seePatientsSympthoms(patients);
+void DoctorManager::doctorSeePatients(userAccount& user, Array<Doctor>& doctors, Array<Patient>& patients) {
+    user.doctor->seePatientsSympthoms(patients);
 }
 
 //Patient Manager
-void PatientManager::patientMenu(LoginManager& user, MenuOptions& ops, Array<Patient>& patients) {
+void PatientManager::patientMenu(userAccount& user, MenuOptions& ops, Array<Patient>& patients) {
     try {
-        patients[user.getloggedInAccountIDX()].listAccountInformation();
-        patients[user.getloggedInAccountIDX()].listAllOption();
+        user.doctor->listAccountInformation();
+        user.doctor->listAllOption();
     }
     catch (...) {
         os << "ID ERROR";
@@ -225,18 +230,18 @@ void PatientManager::patientMenu(LoginManager& user, MenuOptions& ops, Array<Pat
     std::cin >> ops.patientMenuOption;
 }
 
-void PatientManager::patientSetSymp(LoginManager& user, Array<Patient>& patients) {
+void PatientManager::patientSetSymp(userAccount& user, Array<Patient>& patients) {
     os << "Irja le milyen gondja van: ";
     is >> patientSympthoms;
-    patients[user.getloggedInAccountIDX()].setSympthoms(patientSympthoms);
+    user.patient->setSympthoms(patientSympthoms);
 }
 
 
 //Nurse
-void NurseManager::nurseMenu(LoginManager& user, MenuOptions& ops, Array<Nurse>& nurses) {
+void NurseManager::nurseMenu(userAccount& user, MenuOptions& ops, Array<Nurse>& nurses) {
     try {
-        nurses[user.getloggedInAccountIDX()].listAccountInformation();
-        nurses[user.getloggedInAccountIDX()].listAllOption();
+        user.nurse->listAccountInformation();
+        user.nurse->listAllOption();
     }
     catch (...) {
         os << "ID ERROR";
@@ -244,7 +249,7 @@ void NurseManager::nurseMenu(LoginManager& user, MenuOptions& ops, Array<Nurse>&
     is >> ops.nurseMenuOption;
 }
 
-void NurseManager::nurseGiveMedicines(LoginManager& user, Array<Nurse>& nurses, Array<Patient>& patients) {
+void NurseManager::nurseGiveMedicines(userAccount& user, Array<Nurse>& nurses, Array<Patient>& patients) {
     for (size_t i = 0; i < patients.getLen(); i++)
     {
         os << "Option (" << i + 1 << ")\n";
@@ -253,16 +258,16 @@ void NurseManager::nurseGiveMedicines(LoginManager& user, Array<Nurse>& nurses, 
     os << "Valasszon egy beteget: ";
     is >> nursePatientOptionIDX;
     try {
-        nurses[user.getloggedInAccountIDX()].medicineLog(patients[nursePatientOptionIDX - 1]);
+        user.nurse->medicineLog(patients[nursePatientOptionIDX - 1]);
     }
     catch (const char* ERROR) {
         os << ERROR;
     }
 }
 
-void NurseManager::nurseGetMedicineFromStorage(LoginManager& user, Array<Nurse>& nurses, Dictionary& medicines) {
+void NurseManager::nurseGetMedicineFromStorage(userAccount& user, Array<Nurse>& nurses, Dictionary& medicines) {
     os << medicines;
     os << "Valasszon mennyi gyogyszert szeretne kivenni, es milyet (2 Algoflex): ";
     is >> nurseMedicineKey >> nurseMedicineValue;
-    nurses[user.getloggedInAccountIDX()].getMedicine(medicines, nurseMedicineKey, nurseMedicineValue.getText());
+    user.nurse->getMedicine(medicines, nurseMedicineKey, nurseMedicineValue.getText());
 }

@@ -2,6 +2,7 @@
 #define PASSWORD_H
 
 #include "myString.h"
+#include "memtrace.h"
 
 enum AccountType {
 	ad = 1,

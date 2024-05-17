@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "memtrace.h"
 
 class String
 {

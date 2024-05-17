@@ -1,6 +1,8 @@
 #ifndef DOCTOR_H
 #define DOCTOR_H
 
+#include "memtrace.h"
+
 #include "Account.h"
 #include "Patient.h"
 #include "array.h"
