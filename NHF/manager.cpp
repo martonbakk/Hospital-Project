@@ -183,7 +183,7 @@ void DoctorManager::doctorMenu(userAccount& user, MenuOptions& ops, Array<Doctor
 }
 
 void DoctorManager::doctorGetPatient(userAccount& user, Array<Doctor>& doctors, Array<Patient>& patients) {
-    if (user.doctor->listAllPatients(patients) != 0) {
+    if (user.doctor->listAllPatients(os, patients) != 0) {
         os << "Valassza ki melyik beteget szeretne magahoz venni:";
         is >> doctorGetPatientOption;
         try {
@@ -215,7 +215,7 @@ void DoctorManager::doctorReplyToPatient(userAccount& user, Array<Doctor>& docto
 }
 
 void DoctorManager::doctorSeePatients(userAccount& user, Array<Doctor>& doctors, Array<Patient>& patients) {
-    user.doctor->seePatientsSympthoms(patients);
+    user.doctor->seePatientsSympthoms(os, patients);
 }
 
 //Patient Manager

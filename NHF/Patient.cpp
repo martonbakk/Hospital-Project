@@ -60,9 +60,9 @@ void Patient::setSympthoms(const String& symp) {
 
 
 
-void Patient::publicData() {
-	std::cout << _name << ":\n";
-	std::cout << _sympthoms << '\n';
+void Patient::publicData(std::ostream& os) {
+	os << _name << ":\n";
+	os<< _sympthoms << '\n';
 }
 
 void Patient::medicineFromNurse(Dictionary& nurseMedicine) {

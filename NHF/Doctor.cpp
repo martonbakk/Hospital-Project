@@ -9,7 +9,7 @@ void Doctor::listAccountInformation(std::ostream& os) {
 		<< "You can have " << _maxPatientNum - _patientNum << " more Patients. Your current patients:\n";
 	for (int i = 0; i < _patientNum; i++)
 	{
-		_patients[i]->publicData();
+		_patients[i]->publicData(os);
 	}
 	if (_patientNum==0)
 	{
@@ -28,12 +28,12 @@ void Doctor::listPatients(std::ostream& os) {
 	}
 }
 
-int Doctor::listAllPatients(Array<Patient>& patients) {
+int Doctor::listAllPatients(std::ostream& os, Array<Patient>& patients) {
 	int db = 0;
 	for (size_t i = 0; i < patients.getLen(); i++)
 	{
 		if (patients[i].getDocID() == -1) {
-			patients[i].publicData();
+			patients[i].publicData(os);
 			db++;
 		}
 	}
@@ -63,10 +63,10 @@ void Doctor::sendData(std::ostream& os) {
 	os<<_accountId<<'\n'<<_patientNum<<'\n' << _userName << '\n' << _name << '\n' << _mail << '\n' << _phone << "*\n";
 }
 
-void Doctor::seePatientsSympthoms(const Array<Patient>& patients) {
+void Doctor::seePatientsSympthoms(std::ostream& os, const Array<Patient>& patients) {
 	for (size_t i = 0; i < patients.getLen(); i++)
 	{
-		patients[i].publicData();
+		patients[i].publicData(os);
 	}
 }
 

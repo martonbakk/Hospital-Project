@@ -20,10 +20,10 @@ public:
     ~Doctor() { }
 public:
     void listAccountInformation(std::ostream& os) override;                          //Saját fiókadatok lekérése
-    void seePatientsSympthoms(const Array<Patient>& array);          //Beteg panaszainak elolvasása
+    void seePatientsSympthoms(std::ostream&os, const Array<Patient>& array);          //Beteg panaszainak elolvasása
     void getPatient(Patient* patient);                               //Beteg felvétele
     void listPatients(std::ostream& os);
-    int listAllPatients(Array<Patient>& patients);
+    int listAllPatients(std::ostream& os,Array<Patient>& patients);
     void replyPatientSympthoms(const Dictionary& medicines, const DictionaryEntry& reply, int idx);   //Gyógyszer felírása vagy elutasítás
 public:
     static void setMaxPatientNum(int num);                          //Maximum betegszám beállítása---ADMINHOZ KELL

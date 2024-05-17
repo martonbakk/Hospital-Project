@@ -260,13 +260,73 @@ int main() {
 		EXPECT_THROW(adminTEST.setDoctorsMaxPatientNum(-1), const char*);
 	}ENDM
 	#endif
-
 	#if FELADAT > 3
 
+	TEST(DoctorTest) {
+		Doctor doctorTEST(1, "doctor1", "Doctor One", "doctor1@example.com", "123456789");
+		Patient patient1TEST(2, "patient1", "Patient One", "patient1@example.com", "123456789");
+		Patient patient2TEST(3, "patient2", "Patient Two", "patient2@example.com", "987654321");
+
+		Dictionary medicinesTEST;
+		medicinesTEST.push_back(DictionaryEntry(1, "Aspirin"));
+		medicinesTEST.push_back(DictionaryEntry(2, "Paracetamol"));
+
+		doctorTEST.getPatient(&patient1TEST);
+		doctorTEST.getPatient(&patient2TEST);
+
+
+		std::ostringstream os;
+		doctorTEST.listAccountInformation(os);
+		std::string expectedAccountInfo = "ID: 1\nUsername: doctor1\nName: Doctor One\nEmail: doctor1@example.com\nPhone: 123456789\n";
+		EXPECT_EQ(os.str(), expectedAccountInfo.c_str());
+
+		std::ostringstream osPatients;
+		doctorTEST.listPatients(osPatients);
+		std::string expectedPatients = "Patient ID: 2, Name: Patient One\nPatient ID: 3, Name: Patient Two\n";
+		EXPECT_EQ(osPatients.str(), expectedPatients.c_str());
+
+		DictionaryEntry reply(1, "Aspirin");
+		doctorTEST.replyPatientSympthoms(medicinesTEST, reply, 0);
+
+		Array<Patient> patientsTEST;
+		patientsTEST.push_back(patient1TEST);
+		patientsTEST.push_back(patient2TEST);
+		EXPECT_EQ(doctorTEST.listAllPatients(os, patientsTEST), 2);
+	}ENDM
 	#endif
 
 	#if FELADAT > 4
+	TEST(PatientTest, AddAndRetrieveMedicineFromDoctor) {
+		Patient p;
+		DictionaryEntry med1(1, "Paracetamol");
+		DictionaryEntry med2(2, "Ibuprofen");
 
+		p.medicineReply(med1);
+		p.medicineReply(med2);
+
+	EXPECT_EQ(2, p._medicinesToGet.getSize());
+	EXPECT_EQ(String("Paracetamol"), p._medicinesToGet[0]._value);
+	EXPECT_EQ(String("Ibuprofen"), p._medicinesToGet[1]._value);
+	}ENDM
+
+	TEST(PatientTest, AddAndRetrieveMedicineFromNurse) {
+		Patient p;
+		Dictionary nurseMedicines;
+		nurseMedicines.push_back(DictionaryEntry(1, "Aspirin"));
+		nurseMedicines.push_back(DictionaryEntry(2, "Codeine"));
+
+		DictionaryEntry med1(1, "Aspirin");
+		DictionaryEntry med2(2, "Codeine");
+
+		p.medicineReply(med1);
+		p.medicineReply(med2);
+
+		p.medicineFromNurse(nurseMedicines);
+
+		EXPECT_EQ(2, p._medicinesToGet.getSize());
+		EXPECT_EQ(0, nurseMedicines[0]._key); 
+		EXPECT_EQ(0, nurseMedicines[1]._key); 
+	}ENDM
 	#endif
 
 	#if FELADAT > 5
@@ -274,7 +334,28 @@ int main() {
 	#endif
 
 	#if FELADAT > 6
+	TEST(MenuTest, GetMainOps) {
+		std::istringstream input("3");
+		std::ostringstream output;
+		Menu menu(input, output);
 
+		menu.mainMenu();
+		EXPECT_EQ(menu.getMainOps(), 3);
+	}ENDM
+
+	TEST(MenuTest, Login) {
+		std::istringstream inputFirst("martonbakk\npassword\n");
+		std::ostringstream outputFirst;
+		Menu menu(inputFirst, outputFirst);
+
+		menu.login(datas);
+		EXPECT_EQ(menu.getAccountType(), 1);
+		std::istringstream input("1\n3\n");
+		std::ostringstream output;
+		menu.adminMenu(datas);
+
+		EXPECT_EQ(menu.getMainOps(), 3);
+	}ENDM
 	#endif
 	#endif
 

@@ -26,7 +26,7 @@ public:
 public:
     void medicineFromNurse(Dictionary& nurseMedicines);     //A noverek ezzel adagoljak a gyogyszert es a 
     void medicineReply(const DictionaryEntry& doctorReply);  //doktor ezzel irja fel milyen gyogyszer kell a betegnek
-    void publicData();
+    void publicData(std::ostream& os);
     int getDocID() { return _docID; }
 public:
     void loadData(const String& ) override;
