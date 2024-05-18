@@ -31,9 +31,9 @@ public:
 public:
     virtual void listAccountInformation(std::ostream& os) = 0;                          //Sajat fiokadatok lekerese
     void editAccountInformation(const char* Name, const char* Mail, const char* Phone); //Sajat fiok szerkeztese
-    int getAccountID() const { return accountId; }                                     //visszaadja a fok id-jet
+    int getAccountID() const { return accountId; }                                      //visszaadja a fok id-jet
 public:
-    friend bool operator==(const Account& lhs, const Account& rhs) {         //visszaadja, hogy ket fiok megegyezik-e ezt a fiok id alapjan lehet osszehasonlitani
+    friend bool operator==(const Account& lhs, const Account& rhs) {                    //visszaadja, hogy ket fiok megegyezik-e ezt a fiok id alapjan lehet osszehasonlitani
         return (lhs.accountId == rhs.accountId);
     }
 public:

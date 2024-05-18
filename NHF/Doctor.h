@@ -27,9 +27,9 @@ public:
 public:
     void listAccountInformation(std::ostream& os) override;                             //Sajat fiókadatok lekerese
     void seePatientsSympthoms(std::ostream&os, const Array<Patient>& array);            //Beteg panaszainak elolvasasa
-    void getPatient(Patient* patient);                                   //Beteg felvetele
-    void listPatients(std::ostream& os);                                 //A megadott ostreamre kiirja a pacienseit
-    int listAllPatients(std::ostream& os,Array<Patient>& patients);      //A megadott ostreamre kiirja az osszes pacienst
+    void getPatient(Patient* patient);                                          //Beteg felvetele
+    void listPatients(std::ostream& os);                                        //A megadott ostreamre kiirja a pacienseit
+    int listAllPatients(std::ostream& os,const Array<Patient>& patients);       //A megadott ostreamre kiirja az osszes pacienst
     void replyPatientSympthoms(const Dictionary& medicines, const DictionaryEntry& reply, int idx);   //Gyogyszer felírasa vagy elutasítás
 public:
     static void setMaxPatientNum(int num);                //Maximum betegszám beallítasa, ezt hasznalja az admin
@@ -38,8 +38,8 @@ public:
     void sendData(std::ostream& os)override;              //Egy adott ostreamre kiirja az adatait
     void listAllOption(std::ostream& os) override;        //Kiirja a fiokhoz tartozo funkciokat
 public:
-    void setPatients(Array<Patient>& patientsarr);        //A pacienseit beallitja a doktornak
-    void deletePatient(Patient& patient);                 //Torli az adott pacienset a  sajat betegei kozul
+    void setPatients(const Array<Patient>& patientsarr);  //A pacienseit beallitja a doktornak
+    void deletePatient(const Patient& patient);           //Torli az adott pacienset a  sajat betegei kozul
 };
 
 #endif //DOCTOR_H

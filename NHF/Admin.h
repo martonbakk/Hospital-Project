@@ -39,6 +39,7 @@ public:
     void loadData(const String& accountINF)override;         //Betolti a fiokatadok egy stringbol       
     void sendData(std::ostream& os)override;                 //Kiirja a fiokadatokat egy ostreamre
     void listAllOption(std::ostream& os) override;           //Kiirja az osszes funkcionalitast amit a user elerhet
+    bool verifiedYet()const { return verified; }             //Visszaadja, hogy már el lett-e fogadva
 public:
     void deleteAccountfromArray(Array<Doctor>& doctors, Array<Password>& passwords, Array<Patient>& patients, Patient& account);    //Paciens fiok torlese az adatbazisbol
     template<class T>

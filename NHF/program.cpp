@@ -29,7 +29,7 @@ using std::cin;
 * A program futtatasahoz a teszt makrot  false-ra kell allitani. A tesztprogramban a feladat makroval lehet allitani mennyi tesztet futtasson
 */
 
-#define tesztnot
+#define teszt
 
 int main() {
 	std::ifstream fs;

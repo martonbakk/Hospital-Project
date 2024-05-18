@@ -1,4 +1,4 @@
-#ifndef PATIENT_H
+ #ifndef PATIENT_H
 #define PATIENT_H
 
 #include "Account.h"
@@ -25,12 +25,12 @@ public:
     void listAccountInformation(std::ostream& os) override;     //Saját fiókadatok lekérése 
 public:
     void setSympthoms(const String& symp);                      //Panaszok, tünetek leírása menuopciohoz
-    void setDoc(int docID) { docID = docID; }                  //A doktor betegffelvételhez kell
+    void setDoc(int docID) { docID = docID; }                   //A doktor betegffelvételhez kell
 public:
     void medicineFromNurse(Dictionary& nurseMedicines);         //A noverek ezzel adagoljak a gyogyszert es a 
     void medicineReply(const DictionaryEntry& doctorReply);     //doktor ezzel irja fel milyen gyogyszer kell a betegnek
     void publicData(std::ostream& os);                          //nev, tunet kiirasa egy adott os-re
-    int getDocID() { return docID; }                           //visszaadja, melyik doktornal van
+    int getDocID() { return docID; }                            //visszaadja, melyik doktornal van
 public:
     void loadData(const String& ) override;                     //adatok betoltese egy stringrol
     void sendData(std::ostream& os)override;                    //adatok kiirasa egy adott os-re

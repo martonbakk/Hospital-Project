@@ -7,6 +7,11 @@ void Menu::login(Data& datas){
 }
 
 void Menu::adminMenu(Data& datas) {
+	if (!user.admin->verifiedYet()) {
+		os<<"YOU ARE NOT VERIFIED YET";
+		menuOPS.mainMenuOption = 3;
+		return;
+	}
 	adManager.adminMenu(user, menuOPS);
 	switch (menuOPS.adminMenuOption)
 	{
@@ -17,7 +22,7 @@ void Menu::adminMenu(Data& datas) {
 		try {
 			adManager.adminEditAccount(user, datas.admins, datas.patients, datas.doctors, datas.nurses);
 		}
-		catch (const char* ERROR) { std::cout << ERROR; }
+		catch (const char* ERROR) { os << ERROR; }
 		break;
 	case 3://Osszes fiok listazasa
 		adManager.adminListAccounts(user, datas.admins, datas.doctors, datas.nurses, datas.patients);
@@ -120,22 +125,34 @@ void Menu::mainMenu() {
 	is >> menuOPS.mainMenuOption;
 }
 
+
+
+bool containsOnlyEnglishAlphabet(const char* str) {
+	char c;
+	for (int i = 0; i < strlen(str); i++) {
+		if (!std::isalpha(static_cast<unsigned char>(str[i]))) {
+			return false;
+		}
+	}
+	return true;
+}
+
 void Menu::registration(Data& datas) {
 	os << "Regisztracio:\nKerem adja meg milyen fiokot szeretne regisztralni\nAdmin(1)\nDoctor(2)\nPatient(3)\nNurse(4)\nVALASSZON OPCIOT: ";
 	int ops;
 	is >> ops;
 	int ID =datas.passwords.size() + 1;
 	os << "Adja meg a kovetkezo adatokat a kovetkezo sorrendben: felhasznalonev, jelszo, csaladnev, keresztnev, emailcim, telefonszam.\n";
-	os << "A jelszo es a felhsznalo nev nem tartalmazhat csillag (*) karaktert, tovabba ha tobb keresztneve vagy csaladneve van csak egyet adjon meg!\npl.:(rmekelek jelszo Remek Elek remk@example.com 6311234567)";
+	os << "A jelszo es a felhsznalo nev nem tartalmazhat csillag (*), space( ) karaktert, tovabba ha tobb keresztneve vagy csaladneve van csak egyet adjon meg! A jelszo kizarolag kisbetus angol abc betuket tartalmazhat\npl.:(rmekelek jelszo Remek Elek remk@example.com 6311234567)";
 	is >> userName >> password >> firstName >> lastName >> email >> phone;
 	std::string uname(userName.getText());
 	std::string pwd(password.getText());
-	if (uname.find('*') != std::string::npos || pwd.find('*') != std::string::npos) {
+	if (containsOnlyEnglishAlphabet(userName.getText()), containsOnlyEnglishAlphabet(password.getText())) {
 		os << "Hibas felhasznalonev vagy jelszo! Nem tartalmazhat csillag (*) karaktert.\n";
 		return;
 	}
 	else {
-		os << "Sikeres regisztráció...";
+		os << "Sikeres regisztracio...";
 		menuOPS.mainMenuOption = 3;
 	}
 	switch (AccountType(ops)) {

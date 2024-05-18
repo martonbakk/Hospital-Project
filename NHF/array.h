@@ -32,12 +32,12 @@ public:
 	size_t size()const { return len; }			//Visszaadja a tomb hosszat
 public:
 	template<typename P>
-	size_t indexOfElement(P pred);				//Visszaadja az indxet annak az elemnek amire teljesul a predikatum
+	size_t indexOfElement(P pred) const;		//Visszaadja az indxet annak az elemnek amire teljesul a predikatum
 };
 
 template<class T>
 template<typename P>
-size_t Array<T>::indexOfElement(P pred) {
+size_t Array<T>::indexOfElement(P pred) const{
 	for (size_t i = 0; i < len; i++){
 		if (pred(data[i]))
 			return i;

@@ -19,7 +19,7 @@ public:
     Dictionary(size_t len = 0) : array(new DictionaryEntry[len]), size(len) {}
     ~Dictionary() { delete[] array; }
 public:
-    size_t getSize()const { return size; }             //A dictionary hosszat adja vissza
+    size_t getSize()const { return size; }              //A dictionary hosszat adja vissza
     DictionaryEntry& operator[](size_t i) const;        //Visszaadja a Dictionary egyik bejegyzeset
     Dictionary& operator=(const Dictionary& rhs);       //Masolo operator
     void push_back(const DictionaryEntry& newEntry);    //Hatra berakja a bejegyzest

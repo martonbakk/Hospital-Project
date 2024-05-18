@@ -25,7 +25,7 @@ void Doctor::listPatients(std::ostream& os) {
 	}
 }
 
-int Doctor::listAllPatients(std::ostream& os, Array<Patient>& patients) {
+int Doctor::listAllPatients(std::ostream& os,const Array<Patient>& patients) {
 	int db = 0;
 	for (size_t i = 0; i < patients.size(); i++){
 		if (patients[i].getDocID() == -1) {
@@ -40,7 +40,7 @@ void Doctor::listAllOption(std::ostream& os) {
 	os << "Beteg panaszainak elolvasasa (1)\nBeteg felvetele (2)\nGyogyszer felirasa mar felvett betegeknek (3)\nKilepes (4)\nVALASSZON OPCIOT: ";
 }
 
-void Doctor::setPatients(Array<Patient>& patientsarr) {
+void Doctor::setPatients(const Array<Patient>& patientsarr) {
 	for (size_t i = 0; i < patientsarr.size(); i++){
 		if (patientsarr[i].getDocID() == accountId) {
 			patients.push_back(&patientsarr[i]);
@@ -103,7 +103,7 @@ void Doctor::setMaxPatientNum(int num) {
 
 int Doctor::maxPatientNum = 5;
 
-void Doctor::deletePatient(Patient& pat) {
+void Doctor::deletePatient(const Patient& pat) {
 	for (size_t j = 0; j < patients.size(); j++){
 		if (patients[j]->getAccountID() == pat.getAccountID()) {
 			patientNum--;
