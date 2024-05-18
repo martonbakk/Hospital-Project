@@ -31,7 +31,7 @@ using std::cin;
 */
 
 #define PROGRAM true
-#define TESZT  true
+#define CPORTA  false
 
 int main() {
 	std::ifstream fs;
@@ -55,7 +55,7 @@ int main() {
 	catch (const char* ERROR) {
 		cout << ERROR << '\n';
 	}
-	#if PROGRAM&&!TESZT
+	#if PROGRAM&&!CPORTA
 	//PROGRAM
 	program.mainMenu();
 	while (program.run()){
@@ -89,7 +89,7 @@ int main() {
 	}
 	#endif
 
-	#if TESZT
+	#if CPORTA
 	/*
 	* A tesztek felepiteserol roviden: 
 	* Az egyes teszt a bejelentkezest teszteli le es annak hibakezeleseit
@@ -278,7 +278,6 @@ int main() {
 		EXPECT_THROW(doctorTEST.replyPatientSympthoms(medicinesTEST, medicinesTEST[0], -1), const char*);
 	}ENDM
 	#endif
-
 	#if FELADAT > 4
 	TEST(PatientTest, AddAndRetrieveMedicineFromNurse) {
 		Patient p;
@@ -297,7 +296,6 @@ int main() {
 		EXPECT_EQ(0, nurseMedicines[1]._key); 
 	}ENDM
 	#endif
-
 	#if FELADAT > 5
 	TEST(NurseTest, GetMedicineFromStorage) {
 		Nurse n;
@@ -309,7 +307,6 @@ int main() {
 		EXPECT_THROW(n.getMedicine(medicinesTEST, 1, "ASPIRINWRONG"), const char*);
 	}ENDM
 	#endif
-
 	#if FELADAT > 6
 	TEST(MenuTest, GetMainOps) {
 		std::istringstream input("2");
@@ -350,11 +347,20 @@ int main() {
 		EXPECT_EQ(4, menu4.getAccountType());
 		EXPECT_EQ(false, menu4.run());
 
+		std::istringstream input5("1\nkendo\npassword\n2");
+		std::ostringstream output5;
+		Menu menu5(input5, output5);
+		menu5.mainMenu();
+		menu5.login(datas);
+		menu5.patientMenu(datas);
+		EXPECT_EQ(3, menu5.getMainOps());
+		EXPECT_EQ(3, menu5.getAccountType());
+		EXPECT_EQ(false, menu5.run());
+
 	}ENDM
 	#endif
 	#endif
-
-	#if !TESZT&&PROGRAM
+	#if !CPORTA&&PROGRAM
 	/*
 	* A teszt soran nem akarjuk, hogy a teszt eredmenyek kiirodjanak azokba a fajlokba amiket a tenyleges program
 	* fog hasznalni. A fajlba irashoz lesz teszt.

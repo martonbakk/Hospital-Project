@@ -97,7 +97,8 @@ void Doctor::replyPatientSympthoms(const Dictionary& medicines,const DictionaryE
 }
 
 void Doctor::setMaxPatientNum(int num) {
-	if (num < _maxPatientNum) throw "ERROR: WHILE SETTING THE PATIENT NUM: YOU CANT GIVE A LOWER NUMBER";
+	if (num < _maxPatientNum) 
+		throw "ERROR: WHILE SETTING THE PATIENT NUM: YOU CANT GIVE A LOWER NUMBER";
 	_maxPatientNum = num;
 }
 

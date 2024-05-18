@@ -121,7 +121,7 @@ void Menu::mainMenu() {
 }
 
 void Menu::registration(Data& datas) {
-	os << "Regisztracio:\nKerem adja meg milyen fiokot szeretne regisztralni\nAdmin(1)\nDoctor(2)\nNurse(3)\nPatient(4)\nVALASSZON OPCIOT: ";
+	os << "Regisztracio:\nKerem adja meg milyen fiokot szeretne regisztralni\nAdmin(1)\nDoctor(2)\nPatient(3)\nNurse(4)\nVALASSZON OPCIOT: ";
 	int ops;
 	is >> ops;
 	int ID =datas.passwords.getLen() + 1;
@@ -134,25 +134,30 @@ void Menu::registration(Data& datas) {
 		os << "Hibas felhasznalonev vagy jelszo! Nem tartalmazhat csillag (*) karaktert.\n";
 		return;
 	}
+	else {
+		os << "Sikeres regisztráció...";
+		menuOPS.mainMenuOption = 3;
+	}
 	switch (AccountType(ops)) {
 	case ad:
-		datas.admins.push_back(Admin(false, ID, userName.getText(), (firstName + " " + lastName).getText(), email.getText(), phone.getText()));
+		datas.admins.push_back(Admin(false, ID, userName.getText(), (firstName +  lastName).getText(), email.getText(), phone.getText()));
 		datas.passwords.push_back(Password(ID, 1, userName.getText(), encryptor.encode(password.getText()).getText()));
 		break;
 	case doc:
-		datas.doctors.push_back(Doctor(ID, userName.getText(), (firstName + " " + lastName).getText(), email.getText(), phone.getText()));
-		datas.passwords.push_back(Password(ID, 1, userName.getText(), encryptor.encode(password.getText()).getText()));
+		datas.doctors.push_back(Doctor(ID, userName.getText(), (firstName +  lastName).getText(), email.getText(), phone.getText()));
+		datas.passwords.push_back(Password(ID, 2, userName.getText(), encryptor.encode(password.getText()).getText()));
 		break;
 	case pat:
-		datas.patients.push_back(Patient(ID, userName.getText(), (firstName + " " + lastName).getText(), email.getText(), phone.getText()));
-		datas.passwords.push_back(Password(ID, 1, userName.getText(), encryptor.encode(password.getText()).getText()));
+		datas.patients.push_back(Patient(ID, userName.getText(), (firstName +  lastName).getText(), email.getText(), phone.getText()));
+		datas.passwords.push_back(Password(ID, 3, userName.getText(), encryptor.encode(password.getText()).getText()));
 		break;
 	case nur:
-		datas.nurses.push_back(Nurse(ID, userName.getText(), (firstName + " " + lastName).getText(), email.getText(), phone.getText()));
-		datas.passwords.push_back(Password(ID, 1, userName.getText(), encryptor.encode(password.getText()).getText()));
+		datas.nurses.push_back(Nurse(ID, userName.getText(), (firstName +  lastName).getText(), email.getText(), phone.getText()));
+		datas.passwords.push_back(Password(ID, 4, userName.getText(), encryptor.encode(password.getText()).getText()));
 		break;
 	default:
 		os << "Rossz opciot adott meg.\n";
 		break;
 	}
+
 }
