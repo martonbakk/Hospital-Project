@@ -1,4 +1,4 @@
-4
+3
 7
 {Faj a fejem}
 {2 Aspirin 3 Algoflex 1 }
@@ -26,13 +26,4 @@ vasjoc
 Vas Joci
 vjoccika@gmail.com
 06517109876* 
- 13
-{NONE}
-{0 }
--1
-0
-remekelek
-Remek Elek
-remekelek@gmail.com
-06301231234* 
  

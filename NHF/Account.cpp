@@ -1,9 +1,9 @@
 #include "Account.h"
 
 void Account::editAccountInformation(const char* Name, const char* Mail, const char* Phone) {
-        _name = Name;
-        _mail = Mail;
-        _phone = Phone;
+        name = Name;
+        mail = Mail;
+        phone = Phone;
 }
 
 std::ifstream& operator>>(std::ifstream& is, Account& member) {

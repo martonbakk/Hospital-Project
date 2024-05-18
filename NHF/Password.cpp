@@ -5,26 +5,24 @@
 #include <fstream>
 
 Password& Password::operator=(const Password& rhs) {
-	_pwd = rhs._pwd;
-	_uname = rhs._uname;
-	_accountID = rhs._accountID;
-	_type = rhs._type;
+	pwd = rhs.pwd;
+	uname = rhs.uname;
+	accountID = rhs.accountID;
+	type = rhs.type;
 	return *this;
 }
 
 bool Password::operator==(const Password& rhs) const {
-	return (_accountID == rhs._accountID);
+	return (accountID == rhs.accountID);
 }
 
 void Password::loadData(const String& passwordINF) {
 	std::stringstream ss(passwordINF.getText());
-	int type;
-	ss >> _accountID >> type >> _uname >> _pwd;
-	_type = AccountType(type);
+	ss >> accountID >> type >> uname >> pwd;
 }
 
 void Password::sendData(std::ostream& os) {
-	os << _accountID << '\n' << _type << '\n' << _uname << '\n' << _pwd << "*\n";
+	os << accountID << '\n' << type << '\n' << uname << '\n' << pwd << "*\n";
 }
 
 std::ifstream& operator>>(std::ifstream& is, Password& member) {

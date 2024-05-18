@@ -35,11 +35,11 @@ void Dictionary::readFile(std::istream& is, const char* FILENAME) {
 void Dictionary::writeFile(const char* FILENAME) {
     std::ofstream file(FILENAME);
     if (file.is_open()) {
-        file << _size << '\n';
-        for (size_t i = 0; i < _size; i++)
+        file << size << '\n';
+        for (size_t i = 0; i < size; i++)
         {
-            if(_array[i]._key!=0)
-                file << _array[i]._value << " " << _array[i]._key<<'\n';
+            if(array[i].key!=0)
+                file << array[i].value << " " << array[i].key<<'\n';
         }
     }
     else {
@@ -49,29 +49,29 @@ void Dictionary::writeFile(const char* FILENAME) {
 }
 
 DictionaryEntry& Dictionary::operator[](size_t i) const {
-    if (i >= _size)
+    if (i >= size)
         throw "DICTIONARY: THE INDEX VALUE IS BIGER THAN THE ARRAY LENGTH";
-    return _array[i];
+    return array[i];
 }
 
 
 Dictionary& Dictionary::operator=(const Dictionary& rhs) {
-    DictionaryEntry* newArray = new DictionaryEntry[rhs._size];
-    for (size_t i = 0; i < rhs._size; i++){
-        newArray[i]._key=rhs._array[i]._key;
-        newArray[i]._value = rhs._array[i]._value;
+    DictionaryEntry* newArray = new DictionaryEntry[rhs.size];
+    for (size_t i = 0; i < rhs.size; i++){
+        newArray[i].key=rhs.array[i].key;
+        newArray[i].value = rhs.array[i].value;
     }
-    _size = rhs._size;
-    delete[] _array;
-    _array = newArray;
+    size = rhs.size;
+    delete[] array;
+    array = newArray;
     return *this;
 }
 
 std::ostream& operator<<(std::ostream& os, const Dictionary& rhs) {
     for (size_t i = 0; i < rhs.getSize(); i++)
     {
-        if(rhs[i]._key>0)
-            os<<"[" << rhs[i]._key << "] - [" << rhs[i]._value << "]"<< '\n';
+        if(rhs[i].key>0)
+            os<<"[" << rhs[i].key << "] - [" << rhs[i].value << "]"<< '\n';
     }
     if(rhs.getSize()==0)
         os<<"NONE";
@@ -79,14 +79,14 @@ std::ostream& operator<<(std::ostream& os, const Dictionary& rhs) {
 }
 
 void Dictionary::push_back(const DictionaryEntry& newEntry) {
-    DictionaryEntry* newArray = new DictionaryEntry[_size + 1];
-    newArray[_size]._key = newEntry._key;
-    newArray[_size]._value = newEntry._value;
-    for (size_t i = 0; i < _size; i++){
-        newArray[i]._key = _array[i]._key;
-        newArray[i]._value = _array[i]._value;
+    DictionaryEntry* newArray = new DictionaryEntry[size + 1];
+    newArray[size].key = newEntry.key;
+    newArray[size].value = newEntry.value;
+    for (size_t i = 0; i < size; i++){
+        newArray[i].key = array[i].key;
+        newArray[i].value = array[i].value;
     }
-    _size++;
-    delete[] _array;
-    _array = newArray;
+    size++;
+    delete[] array;
+    array = newArray;
 }

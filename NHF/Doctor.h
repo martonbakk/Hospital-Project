@@ -9,31 +9,37 @@
 
 class Patient;
 
-/// @Doktor fiók ///
+/// @Doktor fiok ///
+/*
+* A fiokhoz tartozo funkcionalitasok:
+*- Beteg felvetele – Magához rendelhe a beteget akinek kesobb gyogyszert irhat ki 
+*- Gyogyszer felirasa a betegeknek vagy elutasitas – Felír egy gyogyszert es mennyiseget 
+*- Betegek panaszainak elolvasasa 
+*/
 class Doctor : public Account {
-    static int _maxPatientNum;  //A maximum páciensek száma
-    Array<Patient*> _patients;        //A betegek akik a doktorhoz tartoznak
-    int _patientNum;            //A jelenlegi betegeinek a száma
+    static int maxPatientNum;  //A maximum paciensek szama
+    Array<Patient*> patients;  //A betegek akik a doktorhoz tartoznak
+    int patientNum;            //A jelenlegi betegeinek a szama
 public:
     Doctor(int id = -1, const char* uName = "UNKNOWN", const char* Name = "UNKNOWN", const char* Mail = "UNKNOWN", const char* Phone = "UNKNOWN") :
-        Account(id, uName, Name, Mail, Phone), _patients(0), _patientNum(0){}
+        Account(id, uName, Name, Mail, Phone), patients(0), patientNum(0){}
     ~Doctor() { }
 public:
-    void listAccountInformation(std::ostream& os) override;                          //Saját fiókadatok lekérése
-    void seePatientsSympthoms(std::ostream&os, const Array<Patient>& array);          //Beteg panaszainak elolvasása
-    void getPatient(Patient* patient);                               //Beteg felvétele
-    void listPatients(std::ostream& os);
-    int listAllPatients(std::ostream& os,Array<Patient>& patients);
-    void replyPatientSympthoms(const Dictionary& medicines, const DictionaryEntry& reply, int idx);   //Gyógyszer felírása vagy elutasítás
+    void listAccountInformation(std::ostream& os) override;                             //Sajat fiókadatok lekerese
+    void seePatientsSympthoms(std::ostream&os, const Array<Patient>& array);            //Beteg panaszainak elolvasasa
+    void getPatient(Patient* patient);                                   //Beteg felvetele
+    void listPatients(std::ostream& os);                                 //A megadott ostreamre kiirja a pacienseit
+    int listAllPatients(std::ostream& os,Array<Patient>& patients);      //A megadott ostreamre kiirja az osszes pacienst
+    void replyPatientSympthoms(const Dictionary& medicines, const DictionaryEntry& reply, int idx);   //Gyogyszer felírasa vagy elutasítás
 public:
-    static void setMaxPatientNum(int num);                          //Maximum betegszám beállítása---ADMINHOZ KELL
+    static void setMaxPatientNum(int num);                //Maximum betegszám beallítasa, ezt hasznalja az admin
 public:
-    void loadData(const String&)override;
-    void sendData(std::ostream& os)override;
-    void listAllOption(std::ostream& os) override;
+    void loadData(const String&)override;                 //A stringrol betolti az adatait
+    void sendData(std::ostream& os)override;              //Egy adott ostreamre kiirja az adatait
+    void listAllOption(std::ostream& os) override;        //Kiirja a fiokhoz tartozo funkciokat
 public:
-    void setPatients(Array<Patient>& patients);
-    void deletePatient(Patient& patient);
+    void setPatients(Array<Patient>& patientsarr);        //A pacienseit beallitja a doktornak
+    void deletePatient(Patient& patient);                 //Torli az adott pacienset a  sajat betegei kozul
 };
 
 #endif //DOCTOR_H

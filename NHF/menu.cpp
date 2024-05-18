@@ -1,4 +1,4 @@
-#include "Menu.h"
+#include "menu.h"
 #include <string>
 
 void Menu::login(Data& datas){
@@ -7,11 +7,11 @@ void Menu::login(Data& datas){
 }
 
 void Menu::adminMenu(Data& datas) {
-	adManager.adminMenu(user, datas.admins, menuOPS);
+	adManager.adminMenu(user, menuOPS);
 	switch (menuOPS.adminMenuOption)
 	{
 	case 1://Fiokok torlese
-		adManager.adminDelete(user, datas.admins, datas.patients, datas.doctors, datas.passwords);
+		adManager.adminDelete(user,  datas.patients, datas.doctors, datas.passwords);
 		break;
 	case 2://Fiokok szerkeztese
 		try {
@@ -29,7 +29,7 @@ void Menu::adminMenu(Data& datas) {
 		adManager.adminVerifyAdminAccount(user, datas.admins);
 		break;
 	case 6://Doktorok betegeinek korlatozasa
-		adManager.adminSetDoctorsLimit(user, datas.admins);
+		adManager.adminSetDoctorsLimit(user);
 		break;
 	case 7://Kilepes
 		menuOPS.mainMenuOption = 3;
@@ -44,17 +44,17 @@ void Menu::adminMenu(Data& datas) {
 }
 
 void Menu::doctorMenu(Data& datas) {
-	docManager.doctorMenu(user, menuOPS, datas.doctors);
+	docManager.doctorMenu(user, menuOPS);
 	switch (menuOPS.doctorMenuOption)
 	{
 	case 1://Beteg panaszainak elolvasasa
-		docManager.doctorSeePatients(user, datas.doctors, datas.patients);
+		docManager.doctorSeePatients(user,datas.patients);
 		break;
 	case 2://Beteg felvetele
 		docManager.doctorGetPatient(user, datas.doctors, datas.patients);
 		break;
 	case 3://Gyogyszer felirasa mar felvett betegeknek
-		docManager.doctorReplyToPatient(user, datas.doctors, datas.medicines);
+		docManager.doctorReplyToPatient(user, datas.medicines);
 		break;
 	case 4://Kilepes
 		menuOPS.mainMenuOption = 3;
@@ -69,10 +69,10 @@ void Menu::doctorMenu(Data& datas) {
 }
 
 void Menu::patientMenu(Data& datas) {
-	patManager.patientMenu(user, menuOPS, datas.patients);
+	patManager.patientMenu(user, menuOPS);
 	switch (menuOPS.patientMenuOption) {
 	case 1:
-		patManager.patientSetSymp(user, datas.patients);
+		patManager.patientSetSymp(user);
 		break;
 	case 2:
 		menuOPS.mainMenuOption = 3;
@@ -87,14 +87,14 @@ void Menu::patientMenu(Data& datas) {
 }
 
 void Menu::nurseMenu(Data& datas) {
-	nurManager.nurseMenu(user, menuOPS, datas.nurses);
+	nurManager.nurseMenu(user, menuOPS);
 	switch (menuOPS.nurseMenuOption)
 	{
 	case 1://Gyogyszerek adagolasa a betegnek
-		nurManager.nurseGiveMedicines(user, datas.nurses, datas.patients);
+		nurManager.nurseGiveMedicines(user, datas.patients);
 		break;
 	case 2://Gyogyszerek kivetele a raktarbol
-		nurManager.nurseGetMedicineFromStorage(user, datas.nurses, datas.medicines);
+		nurManager.nurseGetMedicineFromStorage(user, datas.medicines);
 		break;
 	case 3://Kilepes
 		menuOPS.mainMenuOption = 3;
@@ -124,7 +124,7 @@ void Menu::registration(Data& datas) {
 	os << "Regisztracio:\nKerem adja meg milyen fiokot szeretne regisztralni\nAdmin(1)\nDoctor(2)\nPatient(3)\nNurse(4)\nVALASSZON OPCIOT: ";
 	int ops;
 	is >> ops;
-	int ID =datas.passwords.getLen() + 1;
+	int ID =datas.passwords.size() + 1;
 	os << "Adja meg a kovetkezo adatokat a kovetkezo sorrendben: felhasznalonev, jelszo, csaladnev, keresztnev, emailcim, telefonszam.\n";
 	os << "A jelszo es a felhsznalo nev nem tartalmazhat csillag (*) karaktert, tovabba ha tobb keresztneve vagy csaladneve van csak egyet adjon meg!\npl.:(rmekelek jelszo Remek Elek remk@example.com 6311234567)";
 	is >> userName >> password >> firstName >> lastName >> email >> phone;

@@ -9,35 +9,37 @@
 #include <fstream>
 #include <string>
 
-
+///@Dinamikus tomb///
+/*
+* A program STL tarolokat nem hasznal. Az adatok tarolasat ez az osztaly valositja meg reszben. A dinamikus tomb hasznalhato Admin, Doctor, Patient es Nurse osztalyokkal, tovabba
+* kompatibilis minden alap valtozoval is (pl.:int). Az Array osztaly funkcionalitasai hasonlitanak az std::vector-hoz. Iteratora a tombnek nincs, cimzo operatora viszont van. A tomb 
+* adatait ezzel az operatorral lehet elerni. 
+*/
 template<class T>
 class Array{
-	size_t _len;
-	T* _array;
-
+	size_t len;		//A tarolo hozza
+	T* data;		//A tomb amiben az adatokat taroljuk
 public:
-	Array(size_t len=0):_len(len),_array(new T[_len]){}	//konstruktor
+	Array(size_t len=0):len(len), data(new T[len]){}	//konstruktor
 	~Array();											//destruktor
 public:
-	void push_back(const T& element);					//hatulra berakra
-	void delete_element(const T& element);				//kitorol egy elemet
-	T& operator[](size_t i) const;						//visszaadja a tomb i. tagjat
-	size_t getLen() const { return _len; }
-	Array& operator=(const Array& rhs);
-	void readFile(const char* FILENAME);
-	void writeFile(const char* FILENAME);
-	size_t size() { return _len; }
+	void push_back(const T& element);			//hatulra berakra
+	void delete_element(const T& element);		//kitorol egy elemet
+	T& operator[](size_t i) const;				//visszaadja a tomb i. tagjat			
+	Array& operator=(const Array& rhs);			//Masolo operator
+	void readFile(const char* FILENAME);		//Fajlbol olvasas
+	void writeFile(const char* FILENAME);		//Fajlba iras
+	size_t size()const { return len; }			//Visszaadja a tomb hosszat
 public:
 	template<typename P>
-	size_t indexOfElement(P pred);
+	size_t indexOfElement(P pred);				//Visszaadja az indxet annak az elemnek amire teljesul a predikatum
 };
 
 template<class T>
 template<typename P>
 size_t Array<T>::indexOfElement(P pred) {
-	for (size_t i = 0; i < _len; i++)
-	{
-		if (pred(_array[i]))
+	for (size_t i = 0; i < len; i++){
+		if (pred(data[i]))
 			return i;
 	}
 	return -1;
@@ -68,9 +70,9 @@ void Array<T>::writeFile(const char* FILENAME) {
 	std::ofstream of(FILENAME);
 	if (of.is_open())
 	{
-		of << _len << '\n';
-		for (size_t i = 0; i < _len; i++) {
-			of<<_array[i]<<' ';
+		of << len << '\n';
+		for (size_t i = 0; i < len; i++) {
+			of<< data[i]<<' ';
 		}
 	}
 	else {
@@ -80,61 +82,61 @@ void Array<T>::writeFile(const char* FILENAME) {
 
 template<class T>
 Array<T>& Array<T>::operator=(const Array& rhs) {
-	_len = rhs._len;
-	delete[] _array;
-	_array = new T[_len];
-	for (size_t i = 0; i < _len; i++) {
-		_array[i] = rhs._array[i];
+	len = rhs.len;
+	delete[] data;
+	data = new T[len];
+	for (size_t i = 0; i < len; i++) {
+		data[i] = rhs.data[i];
 	}
 	return *this;
 }
 
 template<class T>
 Array<T>::~Array() {
-	delete[] _array;
+	delete[] data;
 }
 
 template<class T>
 void Array<T>::push_back(const T& element) {
-	T* newArray = new T[_len + 1];
-	for (size_t i = 0; i < _len; i++) {
+	T* newArray = new T[len + 1];
+	for (size_t i = 0; i < len; i++) {
 		
-		newArray[i] = _array[i];
+		newArray[i] = data[i];
 	}
-	newArray[_len++] = element;
-	delete[] _array;
-	_array = newArray;
+	newArray[len++] = element;
+	delete[] data;
+	data = newArray;
 }
 
 template<class T>
 void Array<T>::delete_element(const T& element) {
 	size_t newSize = 0;
-	T* newArray = new T[_len - 1];
+	T* newArray = new T[len - 1];
 	bool deleted = false;
-	for (size_t i = 0; i < _len; i++) {
-		if (element == _array[i]){
+	for (size_t i = 0; i < len; i++) {
+		if (element == data[i]){
 			deleted = true;
 		}
 		else {
-			newArray[newSize++] = _array[i];
+			newArray[newSize++] = data[i];
 		}
 	}
 	if (deleted) {
-		_len--;
-		delete[] _array;
-		_array = newArray;
+		len--;
+		delete[] data;
+		data = newArray;
 	}
 }
 
 template<class T>
 T& Array<T>::operator[](size_t i) const{
-	if (_len == 0)
+	if (len == 0)
 		throw "DINARRAY: THE ARRAY IS EMPTY";
 		
-	if (i >= _len)
+	if (i >= len)
 		throw "DINARRAY: INDEX ERROR";
 
-	return _array[i];
+	return data[i];
 }
 
 #endif //ARRAY_H
