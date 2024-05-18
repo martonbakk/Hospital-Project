@@ -4,13 +4,13 @@
 /// Nurse osztaly fuggvenyei
 /// </summary>
 void Nurse::listAccountInformation(std::ostream& os) {
-	os << "Role: NURSE Username: " << _userName << " Full-name: " << _name
-		<< " Mail: " << _mail << " Phonenumber: " << _phone << '\n';
-	if (_medicinesToGive.getSize() == 0) {
+	os << "Role: NURSE Username: " << userName << " Full-name: " << name
+		<< " Mail: " << mail << " Phonenumber: " << phone << '\n';
+	if (medicinesToGive.getSize() == 0) {
 		os << "No medicine to give\n";
 	}
 	else {
-		os << "The following medicines need to be served:\n" << _medicinesToGive<<'\n';
+		os << "The following medicines need to be served:\n" << medicinesToGive<<'\n';
 	}
 }
 
@@ -23,44 +23,44 @@ void Nurse::loadData(const String& accountINF) {
 	String lname;
 	char ch;
 	String med = "";
-	ss >> _accountId;
+	ss >> accountId;
 	while (ss.get(ch) && ch != '}')
 	{
 		if (ch != '{')
 			med += ch;
 	}
 	std::stringstream ss2(med.getText());
-	_medicinesToGive.readFile(ss2);
-	ss >> _userName >> _name >> lname >> _mail >> _phone;
-	_name += lname;
+	medicinesToGive.readFile(ss2);
+	ss >> userName >> name >> lname >> mail >> phone;
+	name += lname;
 }
 
 void Nurse::sendData(std::ostream& os) {
-	os << _accountId << '\n';
-	os << "{" << _medicinesToGive.getSize() << ' ';
-	for (size_t i = 0; i < _medicinesToGive.getSize(); i++)
+	os << accountId << '\n';
+	os << "{" << medicinesToGive.getSize() << ' ';
+	for (size_t i = 0; i < medicinesToGive.getSize(); i++)
 	{
-		os << _medicinesToGive[i]._value << " " << _medicinesToGive[i]._key << " ";
+		os << medicinesToGive[i].value << " " << medicinesToGive[i].key << " ";
 	}
-	os << "}\n" << _userName << '\n' << _name << '\n' << _mail << '\n' << _phone << "*\n";
+	os << "}\n" << userName << '\n' << name << '\n' << mail << '\n' << phone << "*\n";
 }
 
 
 
 void Nurse::medicineLog(Patient& patient) {
-	patient.medicineFromNurse(_medicinesToGive);
+	patient.medicineFromNurse(medicinesToGive);
 }
 
 void Nurse::getMedicine(Dictionary& medicines, int key, const char* value) {
 	bool gotMed=false;
 	for (size_t i = 0; i < medicines.getSize(); i++) {
-		if (medicines[i]._value == value) {
-			if (medicines[i]._key - key < 0) {
+		if (medicines[i].value == value) {
+			if (medicines[i].key - key < 0) {
 				throw "THERE IS NO ENOUGH MEDICINE IN THE STORE";
 			}
 			else {
-				medicines[i]._key -= key;
-				_medicinesToGive.push_back(DictionaryEntry(key, value));
+				medicines[i].key -= key;
+				medicinesToGive.push_back(DictionaryEntry(key, value));
 				gotMed = true;
 			}
 		}

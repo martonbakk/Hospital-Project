@@ -16,7 +16,7 @@
 #include "CaesarCipher.h"
 //Inputkezelo
 #include "manager.h"
-#include "Menu.h"
+#include "menu.h"
 //Teszt
 #include "gtest_lite.h"
 #include "memtrace.h"
@@ -26,12 +26,10 @@ using std::cin;
 
 //Leiras
 /*
-* A program futtatasahoz a PROGRAM makrot true-ra a TESZT makrot pedig false-ra kell allitani. A teszt futtatasahoz a PROGRAM makrot false-ra a TESZT makrot pedig true-ra kell allitani.
-* A teszt 6 reszre van bonta. Ezeket piramis szeruen is le lehet futtatni. A teszteknek jelenleg a vazai vannak csak megirva.
+* A program futtatasahoz a teszt makrot  false-ra kell allitani. A tesztprogramban a feladat makroval lehet allitani mennyi tesztet futtasson
 */
 
-#define PROGRAM true
-#define CPORTA  false
+#define teszt
 
 int main() {
 	std::ifstream fs;
@@ -48,14 +46,14 @@ int main() {
 		datas.patients.readFile("patient.txt");
 		datas.nurses.readFile("nurse.txt");
 
-		for (size_t i = 0; i < datas.doctors.getLen(); i++) {
+		for (size_t i = 0; i < datas.doctors.size(); i++) {
 			datas.doctors[i].setPatients(datas.patients);
 		}
 	}
 	catch (const char* ERROR) {
 		cout << ERROR << '\n';
 	}
-	#if PROGRAM&&!CPORTA
+#ifndef teszt
 	//PROGRAM
 	program.mainMenu();
 	while (program.run()){
@@ -87,9 +85,8 @@ int main() {
 			break;
 		}
 	}
-	#endif
-
-	#if CPORTA
+#endif
+#ifdef teszt
 	/*
 	* A tesztek felepiteserol roviden: 
 	* Az egyes teszt a bejelentkezest teszteli le es annak hibakezeleseit
@@ -118,7 +115,7 @@ int main() {
 		DictionaryEntry entry(1, "value");
 		dict.push_back(entry);
 		EXPECT_EQ(1, dict.getSize());
-		EXPECT_EQ(entry._value, dict[0]._value);
+		EXPECT_EQ(entry.value, dict[0].value);
 	}ENDM
 
 	TEST(DictionaryTest, PushBackNonEmpty) {
@@ -128,8 +125,8 @@ int main() {
 		dict.push_back(entry1);
 		dict.push_back(entry2);
 		EXPECT_EQ(5, dict.getSize());
-		EXPECT_EQ(entry1._key, dict[3]._key);	
-		EXPECT_EQ(entry2._key, dict[4]._key);
+		EXPECT_EQ(entry1.key, dict[3].key);	
+		EXPECT_EQ(entry2.key, dict[4].key);
 	}ENDM
 
 	TEST(DictionaryTest, ReadFileNonEmpty) {
@@ -144,20 +141,20 @@ int main() {
 		Dictionary dict;
 		DictionaryEntry entry(1, "value");
 		dict.push_back(entry);
-		EXPECT_EQ(entry._key, dict[0]._key);
-		EXPECT_EQ(entry._value, dict[0]._value);
+		EXPECT_EQ(entry.key, dict[0].key);
+		EXPECT_EQ(entry.value, dict[0].value);
 	}ENDM
 
 	TEST(ArrayTest, ConstructorEmpty) {
 		Array<int> arr;
-		EXPECT_EQ(0, arr.getLen());
+		EXPECT_EQ(0, arr.size());
 	}ENDM
 
 	TEST(ArrayTest, PushBackAndAccess) {
 		Array<int> arr;
 		arr.push_back(5);
 		arr.push_back(10);
-		EXPECT_EQ(2, arr.getLen());
+		EXPECT_EQ(2, arr.size());
 		EXPECT_EQ(5, arr[0]);
 		EXPECT_EQ(10, arr[1]);
 	}ENDM
@@ -168,7 +165,7 @@ int main() {
 		arr.push_back(10);
 		arr.push_back(15);
 		arr.delete_element(10);
-		EXPECT_EQ(2, arr.getLen());
+		EXPECT_EQ(2, arr.size());
 		EXPECT_EQ(5, arr[0]);
 		EXPECT_EQ(15, arr[1]);
 	}ENDM
@@ -184,7 +181,7 @@ int main() {
 		Array<int> arrFromFile;
 		arrFromFile.readFile(FILENAME);
 
-		EXPECT_EQ(3, arrFromFile.getLen());
+		EXPECT_EQ(3, arrFromFile.size());
 		EXPECT_EQ(5, arrFromFile[0]);
 		EXPECT_EQ(10, arrFromFile[1]);
 		EXPECT_EQ(15, arrFromFile[2]);
@@ -260,7 +257,7 @@ int main() {
 	#endif
 	#if FELADAT > 3
 
-	TEST(DoctorTest) {
+	TEST(DoctorTest, Medicine ) {
 		Doctor doctorTEST(1, "doctor1", "Doctor One", "doctor1@example.com", "123456789");
 		Patient patient1TEST(2, "patient1", "Patient One", "patient1@example.com", "123456789");
 		Patient patient2TEST(3, "patient2", "Patient Two", "patient2@example.com", "987654321");
@@ -292,8 +289,8 @@ int main() {
 		p.medicineReply(med2);
 
 		p.medicineFromNurse(nurseMedicines);
-		EXPECT_EQ(0, nurseMedicines[0]._key); 
-		EXPECT_EQ(0, nurseMedicines[1]._key); 
+		EXPECT_EQ(0, nurseMedicines[0].key); 
+		EXPECT_EQ(0, nurseMedicines[1].key); 
 	}ENDM
 	#endif
 	#if FELADAT > 5
@@ -303,7 +300,7 @@ int main() {
 		medicinesTEST.push_back(DictionaryEntry(1, "Aspirin"));
 		medicinesTEST.push_back(DictionaryEntry(2, "Paracetamol"));
 		EXPECT_THROW(n.getMedicine(medicinesTEST, 10, "Paracetamol"), const char*);
-		EXPECT_NO_THROW(n.getMedicine(medicinesTEST, 1, "Paracetamol"), const char*);
+		EXPECT_NO_THROW(n.getMedicine(medicinesTEST, 1, "Paracetamol"));
 		EXPECT_THROW(n.getMedicine(medicinesTEST, 1, "ASPIRINWRONG"), const char*);
 	}ENDM
 	#endif
@@ -316,8 +313,8 @@ int main() {
 
 		menu.mainMenu();
 		EXPECT_EQ(2, menu.getMainOps());
-		std::istringstream input2("1\njohndoe\npassword\n7\n");
-		std::ostringstream output2; 
+		std::istringstream input2("1\njohndoe\npassword\n7");
+		std::ostringstream output2;
 
 		Menu menu2(input2, output2);
 		menu2.mainMenu();
@@ -356,11 +353,11 @@ int main() {
 		EXPECT_EQ(3, menu5.getMainOps());
 		EXPECT_EQ(3, menu5.getAccountType());
 		EXPECT_EQ(false, menu5.run());
-
 	}ENDM
 	#endif
-	#endif
-	#if !CPORTA&&PROGRAM
+	
+#endif
+#ifndef teszt
 	/*
 	* A teszt soran nem akarjuk, hogy a teszt eredmenyek kiirodjanak azokba a fajlokba amiket a tenyleges program
 	* fog hasznalni. A fajlba irashoz lesz teszt.
@@ -377,6 +374,6 @@ int main() {
 	catch (const char* ERROR) {
 		cout << ERROR << '\n';
 	}
-	#endif
+#endif
 	return 0;
 }

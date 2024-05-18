@@ -2,10 +2,15 @@
 #include <iostream>
 #include "memtrace.h"
 
+
+/// @String ///
+/*
+* Sajat string osztaly.
+*/
 class String
 {
-	size_t _len;		//lezaro nullaval a String hossza
-	char* _content;		//char pointer
+	size_t len;		//lezaro nullaval a String hossza
+	char* content;		//char pointer
 public:
 	String();
 	String(const char* CONTENT);

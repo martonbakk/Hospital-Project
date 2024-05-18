@@ -6,60 +6,60 @@
 #include <iomanip>
 
 
-String::String():_len(1), _content(nullptr){}
+String::String():len(1), content(nullptr){}
 
 String::String(const String& str) {
-    _content = new char[(_len = str._len) + 1];
-    strncpy(_content, str._content, _len);
-    _content[_len] = '\0';
+    content = new char[(len = str.len) + 1];
+    strncpy(content, str.content, len);
+    content[len] = '\0';
 }
 
 String::String(const char* CONTENT) {
-    _content = new char[_len = strlen(CONTENT) + 1];
-    strcpy(_content, CONTENT);
+    content = new char[len = strlen(CONTENT) + 1];
+    strcpy(content, CONTENT);
 }
 
 String::~String() {
-    delete[] _content;
+    delete[] content;
 }
 
 //Getterek
 size_t String::getLen() const {
-    return _len;
+    return len;
 }
 
 char* String::getText() const {
-    return _content;
+    return content;
 }
 
 
 //Operatorok
-String& String::operator=(const char* content) {
-    _len = strlen(content) + 1;
-    delete[] _content;
+String& String::operator=(const char* newcontent) {
+    len = strlen(newcontent) + 1;
+    delete[] content;
 
-    _content = new char[_len];
-    strcpy(_content, content);
+    content = new char[len];
+    strcpy(content, newcontent);
     return *this;
 }
 
 String& String::operator+=(const String& str) {
-    if (_content!=nullptr)
+    if (content!=nullptr)
     {
         char* temp;
-        _len += str._len;
-        temp = new char[_len];
-        strcpy(temp, _content);
+        len += str.len;
+        temp = new char[len];
+        strcpy(temp, content);
         strcat(temp, " ");
-        strcat(temp, str._content);
-        delete[] _content;
-        _content = temp;
+        strcat(temp, str.content);
+        delete[] content;
+        content = temp;
     }
     else
     {
-        _len = str._len;
-        _content = new char[str._len];
-        strcpy(_content, str._content);
+        len = str.len;
+        content = new char[str.len];
+        strcpy(content, str.content);
     }
     
     return *this;
@@ -67,10 +67,10 @@ String& String::operator+=(const String& str) {
 
 String String::operator+(const char* str) const {
     String result;
-    result._len = strlen(str)+_len;
-    result._content = new char[result._len];
-    strcpy(result._content, _content);
-    strcat(result._content, str);
+    result.len = strlen(str)+len;
+    result.content = new char[result.len];
+    strcpy(result.content, content);
+    strcat(result.content, str);
     return result;
 }
 
@@ -78,12 +78,12 @@ String String::operator+(const char* str) const {
 
 String String::operator+(const String& str) const {
     String result;
-    result._len = _len + str._len;
-    result._content = new char[result._len];
+    result.len = len + str.len;
+    result.content = new char[result.len];
 
-    strcpy(result._content, _content);
-    strcat(result._content, " ");
-    strcat(result._content, str._content);
+    strcpy(result.content, content);
+    strcat(result.content, " ");
+    strcat(result.content, str.content);
 
     return result;
 }
@@ -93,11 +93,11 @@ String String::operator+(const String& str) const {
 String& String::operator=(const String& str) {
     if (this != &str)
     {
-        delete[] _content;
-        if (str._content != nullptr) {
-            _content = new char[(_len = str._len) + 1];
-            strncpy(_content, str._content, _len);
-            _content[_len] = 0;
+        delete[] content;
+        if (str.content != nullptr) {
+            content = new char[(len = str.len) + 1];
+            strncpy(content, str.content, len);
+            content[len] = 0;
         }
     }
     return *this;
@@ -106,34 +106,34 @@ String& String::operator=(const String& str) {
 
 
 char& String::operator[](size_t i) {
-    if (i >= _len) throw "Tul indexelt";
-    return *(_content + i);
+    if (i >= len) throw "Tul indexelt";
+    return *(content + i);
 }
 
 bool String::operator==(const String& s1) {
-    return strcmp(_content, s1._content) == 0;
+    return strcmp(content, s1.content) == 0;
 }
 
 std::ostream& operator<<(std::ostream& os, const String& str) {
-    if (str._content != NULL)
-        os << str._content;
+    if (str.content != NULL)
+        os << str.content;
     return os;
 }
 
 
 
 String& String::operator+=(const char& car) {
-    char* ret = new char[_len + 1];
-    _len += 1;
+    char* ret = new char[len + 1];
+    len += 1;
 
-    if (_content != NULL) {
-        strcpy(ret, _content);
-        delete[] _content;
+    if (content != NULL) {
+        strcpy(ret, content);
+        delete[] content;
     }
 
-    ret[_len - 2] = car;
-    ret[_len - 1] = '\0';
-    _content = ret;
+    ret[len - 2] = car;
+    ret[len - 1] = '\0';
+    content = ret;
     return *this;
 }
 

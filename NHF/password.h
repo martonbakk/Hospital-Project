@@ -11,24 +11,24 @@ enum AccountType {
 	nur = 4
 };
 
-class Password {
-	String _pwd;
-	String _uname;
-	int _accountID;
-	AccountType _type;
+/// @Password ///
+/*
+* A jelszo osztaly. 
+*/
+struct Password {
+	String pwd;
+	String uname;
+	int accountID;
+	int type;
 public:
-	Password(int id = 0, int type = 0, const char* uname = "UNKNOWN", const char* pwd = "UNKNOWN") :_pwd(pwd), _uname(uname), _accountID(id), _type(AccountType(type)) {}
-	int getID() { return _accountID; }
-	String getUserName() { return _uname; }
-	String getPassword() { return _pwd; }
-	int getAccountType() { return _type; }
-	void loadData(const String& passwordINF);
-	void sendData(std::ostream& os);
-	bool operator==(const Password& rhs) const;
-	Password& operator=(const Password& rhs);
+	Password(int id = 0, int type = 0, const char* uname = "UNKNOWN", const char* pwd = "UNKNOWN") :pwd(pwd), uname(uname), accountID(id), type(type) {}
+	void loadData(const String& passwordINF);		//adatok betoltese egy stringrol
+	void sendData(std::ostream& os);				//adatok kiirasa egy os-re
+	bool operator==(const Password& rhs) const;		//osszehasonlito operator
+	Password& operator=(const Password& rhs);		//egyenloseg operator
 public:
-	friend std::ifstream& operator>>(std::ifstream& is, Password& member);
-	friend std::ofstream& operator<<(std::ofstream& is, Password& member);
+	friend std::ifstream& operator>>(std::ifstream& is, Password& member);	//inserter operator fajlbol olvasashoz
+	friend std::ofstream& operator<<(std::ofstream& is, Password& member);	//kiiro operator a fajlba irashoz
 };
 
 #endif
