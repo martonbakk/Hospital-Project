@@ -159,7 +159,13 @@ void AdminManager::adminVerifyAdminAccount(userAccount& user, Array<Admin>& admi
 void AdminManager::adminSetDoctorsLimit(userAccount& user, Array<Admin>& admins) {
     os << "Adja meg mennyire szeretne korlatozni a betegek szamat: ";
     is >> adminSetPatientMaxNum;
-    user.admin->setDoctorsMaxPatientNum(adminSetPatientMaxNum);
+    try {
+        user.admin->setDoctorsMaxPatientNum(adminSetPatientMaxNum);
+    }
+    catch (const char* ERROR) {
+        os << ERROR;
+    }
+   
 }
 
 void AdminManager::adminDefault(MenuOptions& ops) {
@@ -221,18 +227,22 @@ void DoctorManager::doctorSeePatients(userAccount& user, Array<Doctor>& doctors,
 //Patient Manager
 void PatientManager::patientMenu(userAccount& user, MenuOptions& ops, Array<Patient>& patients) {
     try {
-        user.doctor->listAccountInformation(os);
-        user.doctor->listAllOption(os);
+        user.patient->listAccountInformation(os);
+        user.patient->listAllOption(os);
     }
     catch (...) {
         os << "ID ERROR";
     }
-    std::cin >> ops.patientMenuOption;
+    is >> ops.patientMenuOption;
 }
 
 void PatientManager::patientSetSymp(userAccount& user, Array<Patient>& patients) {
     os << "Irja le milyen gondja van: ";
-    is >> patientSympthoms;
+    is >> patientSympthoms; 
+    char ch;
+    while (is.get(ch)&&ch!='\n'){
+        patientSympthoms += ch;
+    }
     user.patient->setSympthoms(patientSympthoms);
 }
 
